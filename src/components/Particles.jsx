@@ -4,20 +4,27 @@ import RAFManager from "raf-manager";
 import TweenLite from "gsap/TweenLite";
 import Canvas from "./Canvas";
 import dot from "../assets/dot";
+import LevaModal from "./LevaModal";
 
+// width, height, radius, start colder, end color - line 37-42 in Particles.jsx
+// Mass, Life, Body, Radius, RandomDrifit, Alpha, Color, Scale, Attraction values - line 70-87 in Particles.jsx
 export default class Particles extends React.Component {
   constructor(props) {
     super(props);
-
+    this.state = {
+      canvasRef: null,
+      radius: 170, startColor: "#4F1500", endColor: "#0029FF"
+    };
     this.loaded = false;
     this.center = { x: 0, y: 0 };
-    this.conf = { radius: 170, tha: 0 };
+    this.conf = { radius: this.state.radius, tha: 100 };
     this.attractionBehaviours = [];
     this.renderProton = this.renderProton.bind(this);
   }
 
   handleCanvasInited(canvas) {
     this.createProton(canvas);
+    this.setState({canvasRef: canvas})
     RAFManager.add(this.renderProton);
   }
 
@@ -38,15 +45,15 @@ export default class Particles extends React.Component {
       canvas,
       x: canvas.width / 2 + this.conf.radius,
       y: canvas.height / 2,
-      startColor: "#4F1500",
-      endColor: "#0029FF"
+      startColor: this.state.startColor,
+      endColor: this.state.endColor
     });
     const emitter2 = this.createImageEmitter({
       canvas,
       x: canvas.width / 2 - this.conf.radius,
       y: canvas.height / 2,
-      startColor: "#004CFE",
-      endColor: "#FF00FF"
+      startColor: this.state.startColor,
+      endColor: this.state.endColor
     });
     proton.addEmitter(emitter1);
     proton.addEmitter(emitter2);
@@ -71,7 +78,7 @@ export default class Particles extends React.Component {
     emitter.addInitialize(new Proton.Life(8));
     emitter.addInitialize(new Proton.Body([dot], 32));
     emitter.addInitialize(new Proton.Radius(40));
-    emitter.addBehaviour(new Proton.RandomDrift(1, 1, 0.03));
+    emitter.addBehaviour(new Proton.RandomDrift(1, 1, 4));
 
     emitter.addBehaviour(new Proton.Alpha(0.8, 0));
     emitter.addBehaviour(new Proton.Color(startColor, endColor));
@@ -149,15 +156,28 @@ export default class Particles extends React.Component {
     this.proton.stats.update(2);
   }
 
+  handelChanges(value) {
+    this.setState(value);
+    if (this.state.canvasRef) {
+      this.createProton(this.state.canvasRef)
+    };
+    console.log(this.state.radius);
+  }
+
   render() {
     return (
-      <Canvas
-        globalCompositeOperation="darker"
-        onCanvasInited={this.handleCanvasInited.bind(this)}
-        onMouseDown={this.handleMouseDown.bind(this)}
-        onMouseUp={this.handleMouseUp.bind(this)}
-        onResize={this.handleResize.bind(this)}
-      />
+      <>
+        <Canvas
+          globalCompositeOperation="darker"
+          onCanvasInited={this.handleCanvasInited.bind(this)}
+          onMouseDown={this.handleMouseDown.bind(this)}
+          onMouseUp={this.handleMouseUp.bind(this)}
+          onResize={this.handleResize.bind(this)}
+        />
+        <LevaModal
+          handelChanges={this.handelChanges.bind(this)}
+        />
+      </>
     );
   }
 }
