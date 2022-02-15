@@ -1,59 +1,57 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 
-export default class Canvas extends React.Component {
-  constructor(props) {
-    super(props);
+const Canvas = ({
+  onCanvasInited,
+  onResize,
+  onMouseDown,
+  onMouseUp
+}) => {
+  const canvasRef = useRef();
 
-    this.canvasRef = React.createRef();
-  }
-
-  componentDidMount() {
-    this.initCanvas();
-    this.resize = this.resize.bind(this);
-    window.addEventListener("resize", this.resize);
-  }
-
-  initCanvas() {
-    const canvas = this.canvasRef.current;
+  const initCanvas = () => {
+    const canvas = canvasRef.current;
     const width = window.innerWidth;
     const height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-    this.props.onCanvasInited && this.props.onCanvasInited(canvas);
+    onCanvasInited && onCanvasInited(canvas);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.resize);
-  }
-
-  resize() {
-    const canvas = this.canvasRef.current;
+  const resize = () => {
+    const canvas = canvasRef.current;
     const width = window.innerWidth;
     const height = window.innerHeight;
     canvas.width = width;
     canvas.height = height;
-
-    this.props.onResize && this.props.onResize(width, height);
+    onResize && onResize(width, height);
   }
 
-  handleMouseDown(e) {
-    this.props.onMouseDown && this.props.onMouseDown(e);
+  const handleMouseDown = (e) => {
+    onMouseDown && onMouseDown(e);
   }
 
-  handleMouseUp(e) {
-    this.props.onMouseUp && this.props.onMouseUp(e);
+  const handleMouseUp = (e) => {
+    onMouseUp && onMouseUp(e);
   }
 
-  render() {
-    return (
-      <div>
-        <canvas
-          ref={this.canvasRef}
-          onMouseDown={this.handleMouseDown.bind(this)}
-          onMouseUp={this.handleMouseUp.bind(this)}
-          className="canvas"
-        />
-      </div>
-    );
-  }
+  useEffect(() => {
+    initCanvas();
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  });
+
+  return (
+    <div>
+      <canvas
+        ref={canvasRef}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseUp}
+        className="canvas"
+      />
+    </div>
+  );
 }
+
+export default Canvas;
