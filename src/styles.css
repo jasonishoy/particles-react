@@ -15,3 +15,19 @@ body {
 .leva-c-kWgxhW {
   width: 315px;
 }
+
+.leva-c-iSkYoW label {
+  word-wrap: break-word;
+}
+
+@media screen and (max-width: 576px) {
+  .leva-c-kWgxhW {
+    width: 200px;
+  }
+
+  .leva-c-bduird {
+    flex-direction: column;
+    display: flex;
+    align-items: stretch;
+  }
+}
