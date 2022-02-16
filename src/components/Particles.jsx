@@ -1,5 +1,6 @@
 import React from "react";
 import Proton from "proton-engine";
+// import ProtonLayer from
 import RAFManager from "raf-manager";
 import TweenLite from "gsap/TweenLite";
 import Canvas from "./Canvas";
@@ -7,13 +8,8 @@ import dot from "../assets/dot";
 import LevaModal from "./LevaModal";
 
 /*
-1- Don't let the animation reset when a value is changed
-2- Add another particle
 3- The speed of spinning needs a slider (it’s controlled by the increment of tha config (line 153 of your code))
 4- As I keep changing the variables, the animation gets slower and heavier.
-  Is it possible that your code keeps spawning new emitters every time something is changed?
-  Gotta make sure that we are not adding more and more threads or overflowing the memory with objects
-  that are not being deleted. Just use the Alpha sliders a bunch of times and you’ll see what I mean.
 
 -------------------------------->
 1- All numerical inputs should have a slider with reasonable min/max values                                                    ---> Done
@@ -29,6 +25,17 @@ export default class Particles extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      circlesPositions: [
+        {
+          divisionNum: 2,
+        },
+        {
+          divisionNum: 1.3,
+        },
+        {
+          divisionNum: 4,
+        },
+      ],
       numberOfCircles: 1,
       startColor: "#ffffff",
       endColor: "#000000",
@@ -132,23 +139,47 @@ export default class Particles extends React.Component {
   }
 
   emitterMove() {
-    for(let i = 0; i < (this.state.numberOfCircles * 2); i+=1) {
-      i%2 ?
-      this.coordinateRotation({
-        emitter: this.proton.emitters[i],
-        width: this.canvas.width,
-        height: this.canvas.height,
-        tha: (Math.PI * i) / 2,
-        divisionNum: 2
-      })
-      :
-      this.coordinateRotation({
-        emitter: this.proton.emitters[i],
-        width: this.canvas.width,
-        height: this.canvas.height,
-        tha: i===0 ? -Math.PI /2 : (-Math.PI * i) / 2,
-        divisionNum: 2
-      })
+    if (this.state.numberOfCircles === 1) {
+      for(let i = 0; i < (this.state.numberOfCircles * 2); i+=1) {
+        i%2 ?
+        this.coordinateRotation({
+          emitter: this.proton.emitters[i],
+          width: this.canvas.width,
+          height: this.canvas.height,
+          tha: Math.PI / 2,
+          divisionNum: 2,
+        })
+        :
+        this.coordinateRotation({
+          emitter: this.proton.emitters[i],
+          width: this.canvas.width,
+          height: this.canvas.height,
+          tha: -Math.PI /2,
+          divisionNum: 2,
+        })
+      }
+    } else {
+      let x  = 0;
+      for(let i = 0; i < (this.state.numberOfCircles * 2); i+=1) {
+        i%2 ?
+          this.coordinateRotation({
+            emitter: this.proton.emitters[i],
+            width: this.canvas.width,
+            height: this.canvas.height,
+            tha: Math.PI / 2,
+            divisionNum: this.state.circlesPositions[x].divisionNum,
+          })
+        :
+          this.coordinateRotation({
+            emitter: this.proton.emitters[i],
+            width: this.canvas.width,
+            height: this.canvas.height,
+            tha: -Math.PI /2,
+            divisionNum: this.state.circlesPositions[x].divisionNum,
+          });
+        ([1,3,5,7,9].includes(i)) && x++;
+        console.log(x);
+      }
     }
     this.conf.tha += 0.01;
   }
@@ -157,7 +188,7 @@ export default class Particles extends React.Component {
     emitter.p.x =
       width / divisionNum + this.state.shapesRadius * Math.sin(tha + this.conf.tha);
     emitter.p.y =
-      height / divisionNum + this.state.shapesRadius * Math.cos(tha + this.conf.tha);
+      height / 2 + this.state.shapesRadius * Math.cos(tha + this.conf.tha);
   }
 
   handleResize(width, height) {
@@ -167,7 +198,6 @@ export default class Particles extends React.Component {
   handleMouseDown() {
     this.center.x = this.canvas.width / 2;
     this.center.y = this.canvas.height / 2;
-    console.log(this.proton);
 
     for (var i = 0; i < this.state.numberOfCircles*2; i++)
       this.attractionBehaviours[i].reset(this.center, 120, 200);
@@ -203,7 +233,7 @@ export default class Particles extends React.Component {
   }
 
   handelSpeed(newValue) {
-    console.log(this.proton);
+    this.conf.tha += newValue;
   }
 
   handelRadius(newValue) {
@@ -266,11 +296,8 @@ export default class Particles extends React.Component {
     this.setState({
       alpha: newValue,
     });
-    // this.destroyProton();
-    // this.handleCanvasInited(this.canvas);
-    this.proton.destroyAllEmitters();
-    this.proton.update();
-    console.log(this.proton);
+    this.destroyProton();
+    this.handleCanvasInited(this.canvas);
   }
 
   handelScale(newValue) {
