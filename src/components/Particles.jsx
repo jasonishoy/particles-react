@@ -39,10 +39,11 @@ export default class Particles extends React.Component {
           divisionNum: 4,
         },
       ],
+      shapesRadius: 140,
+      speed: 0.01,
       numberOfCircles: 1,
       startColor: "#ffffff",
       endColor: "#000000",
-      shapesRadius: 140,
       shapesMass: 1,
       shapesLife: 8,
       randomDriftCheck: false,
@@ -95,7 +96,7 @@ export default class Particles extends React.Component {
   }
 
   createImageEmitter({ canvas, x, y, startColor, endColor }) {
-    const emitter = new Proton.Emitter();
+    const emitter = new Proton.BehaviourEmitter();
     emitter.rate = new Proton.Rate(
       new Proton.Span(1, 2),
       new Proton.Span(0.01, 0.01)
@@ -153,7 +154,7 @@ export default class Particles extends React.Component {
           emitter: this.proton.emitters[i],
           width: this.canvas.width,
           height: this.canvas.height,
-          tha: -Math.PI /2,
+          tha: -Math.PI / 2,
           divisionNum: 2,
         })
       }
@@ -173,13 +174,13 @@ export default class Particles extends React.Component {
             emitter: this.proton.emitters[i],
             width: this.canvas.width,
             height: this.canvas.height,
-            tha: -Math.PI /2,
+            tha: -Math.PI / 2,
             divisionNum: this.state.circlesPositions[x].divisionNum,
           });
         ([1,3,5,7,9].includes(i)) && x++;
       }
     }
-    this.conf.tha += 0.01;
+    this.conf.tha += this.state.speed;
   }
 
   coordinateRotation({ emitter, width, height, tha, divisionNum }) {
@@ -232,7 +233,9 @@ export default class Particles extends React.Component {
   }
 
   handelSpeed(newValue) {
-    this.conf.tha += newValue;
+    this.setState({
+      speed: newValue
+    })
     this.destroyProton();
     this.proton.update();
   }
