@@ -1,6 +1,5 @@
 import React from "react";
 import Proton from "proton-engine";
-// import ProtonLayer from
 import RAFManager from "raf-manager";
 import TweenLite from "gsap/TweenLite";
 import Canvas from "./Canvas";
@@ -9,17 +8,21 @@ import LevaModal from "./LevaModal";
 
 /*
 3- The speed of spinning needs a slider (it’s controlled by the increment of tha config (line 153 of your code))
-4- As I keep changing the variables, the animation gets slower and heavier.
+
 
 -------------------------------->
-1- All numerical inputs should have a slider with reasonable min/max values                                                    ---> Done
-3- Random drift needs a checkbox to enable/disable the behavior                                                                ---> Done
-5- Alpha values: the first parameter should be a positive number between zero and one and the second
-  parameter is a string and not a number. So the 2D slider for alpha is not needed. Just the first param is enough.            ---> Done
-6- The attraction behavior is not needed since it is used for the click animation which we don’t need.                         ---> Done
-7- The scale variable is also like alpha, the first param is a number and the second is a string. So we only need
-    the first param. Also it has to be a positive number. Play with the min/max values to make sure the bounds are reasonable. ---> Done
-8- we don't need the body variable on the GUIB                                                                                 ---> Done
+1- All numerical inputs should have a slider with reasonable min/max values               ---> Done
+3- Random drift needs a checkbox to enable/disable the behavior
+4- As I keep changing the variables, the animation gets slower and heavier.               ---> Done                                                            ---> Done
+5- Alpha values: the first parameter should be a positive number between zero
+  and one and the second parameter is a string and not a number. So the 2D slider
+  for alpha is not needed. Just the first param is enough.                                ---> Done
+6- The attraction behavior is not needed since it is used for the click animation
+   which we don’t need.                         ---> Done
+7- The scale variable is also like alpha, the first param is a number and the second
+    is a string. So we only need the first param. Also it has to be a positive number.
+    Play with the min/max values to make sure the bounds are reasonable.                  ---> Done
+8- we don't need the body variable on the GUIB                                            ---> Done
 */
 export default class Particles extends React.Component {
   constructor(props) {
@@ -62,9 +65,6 @@ export default class Particles extends React.Component {
 
   destroyProton() {
     RAFManager.remove(this.renderProton);
-    for(let i = 0; i < this.state.numberOfCircles; i+=1) {
-      this.proton.emitters[0].destroy();
-    }
     this.proton.destroy();
   }
 
@@ -85,7 +85,6 @@ export default class Particles extends React.Component {
         endColor: this.state.endColor,
       }));
     }
-
     const renderer = new Proton.WebGlRenderer(canvas);
     renderer.blendFunc("SRC_ALPHA", "ONE");
     proton.addRenderer(renderer);
@@ -99,7 +98,7 @@ export default class Particles extends React.Component {
     const emitter = new Proton.Emitter();
     emitter.rate = new Proton.Rate(
       new Proton.Span(1, 2),
-      new Proton.Span(0.01, 0.02)
+      new Proton.Span(0.01, 0.01)
     );
 
     emitter.addInitialize(new Proton.Mass(this.state.shapesMass));
@@ -229,17 +228,21 @@ export default class Particles extends React.Component {
     this.setState({
       numberOfCircles: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
   handelSpeed(newValue) {
     this.conf.tha += newValue;
+    this.destroyProton();
+    this.proton.update();
   }
 
   handelRadius(newValue) {
     this.setState({
       shapesRadius: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -247,6 +250,7 @@ export default class Particles extends React.Component {
     this.setState({
       startColor: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -254,6 +258,7 @@ export default class Particles extends React.Component {
     this.setState({
       endColor: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -261,6 +266,7 @@ export default class Particles extends React.Component {
     this.setState({
       shapesMass: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -268,6 +274,7 @@ export default class Particles extends React.Component {
     this.setState({
       shapesLife: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -275,6 +282,7 @@ export default class Particles extends React.Component {
     this.setState({
       randomDriftCheck: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -282,6 +290,7 @@ export default class Particles extends React.Component {
     this.setState({
       randomDrift: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -289,6 +298,7 @@ export default class Particles extends React.Component {
     this.setState({
       randomDriftSpeed: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
@@ -297,13 +307,14 @@ export default class Particles extends React.Component {
       alpha: newValue,
     });
     this.destroyProton();
-    this.handleCanvasInited(this.canvas);
+    this.proton.update();
   }
 
   handelScale(newValue) {
     this.setState({
       scale: newValue,
     });
+    this.destroyProton();
     this.proton.update();
   }
 
