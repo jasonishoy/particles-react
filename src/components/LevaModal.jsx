@@ -1,86 +1,75 @@
 import { useControls } from "leva";
 
-/*
-  radius, start color, end color - line 37-42 in Particles.jsx // Done
-  Mass, Life, Body, Radius, RandomDrifit, Alpha, Color, Scale, Attraction values - line 70-87 in Particles.jsx
-*/
-
 const LevaModal = ({
+  handelNumberOfCircles,
+  handelSpeed,
+  handelRadius,
   handelStartColor,
   handelEndColor,
-  handelRadius,
   handelMass,
   handelLife,
-  handelShapesBody,
+  handelRandomDriftCheck,
   handelRandomDrift,
   handelRandomDriftSpeed,
   handelAlpha,
   handelScale,
-  handelAttraction
 }) => {
   const control = useControls({
-    "Radius": { value: 170, onChange: (v) => handelRadius(v) },
+    "Circles Number": { value: 1, min: 1, max: 3, step: 1, onChange: (v) => handelNumberOfCircles(v) },
+    "Speed": { value: 1000, min: 1000, max: 10000, step: 500, onChange: (v) => handelSpeed(v)},
+    "Radius": { value: 100, min: 10, max: 100, onChange: (v) => handelRadius(v) },
     "Start color": { value: "red", onChange: (v) => handelStartColor(v) },
     "End color": { value: "blue", onChange: (v) => handelEndColor(v) },
     "Mass": {
       value: 1,
-      min: 0,
+      min: 1,
+      max: 12,
       step: 1,
       onChange: (v) => handelMass(v),
     },
     "Life": {
       value: 8,
-      min: 0,
+      min: 1,
+      max: 12,
       step: 1,
       onChange: (v) => handelLife(v),
     },
-    "Body": {
-      value: 32,
-      min: 0,
-      onChange: (v) => handelShapesBody(v)
+    "Enable Random Drift": {
+      value: false,
+      onChange: (v) => handelRandomDriftCheck(v)
     },
     "Random Drift": {
       value: {
         x: 1,
         y: 1,
       },
-      step: 0.2,
+      render: (get) => get('Enable Random Drift'),
       onChange: (v) => handelRandomDrift(v)
     },
     "Random Drift Speed": {
       value: 0.03,
-      min: 0,
+      min: 0.01,
       max: 1,
       step: 0.01,
+      render: (get) => get('Enable Random Drift'),
       onChange: (v) => handelRandomDriftSpeed(v)
     },
     "Alpha": {
-      value: {
-        x: 0.8,
-        y: 0,
-      },
+      value: 0.8,
+      min: 0.1,
+      max: 1,
       step: 0.1,
       onChange: (v) => handelAlpha(v)
     },
     "Enable Scale": false,
-    "Scale" : {
-      value: {
-        x: 2.5,
-        y: 0,
-      },
+    "Scale": {
+      value: 2.5,
+      min: 1,
+      max: 4,
       step: 0.5,
       render: (get) => get('Enable Scale'),
       onChange: (v) => handelScale(v)
     },
-    "Attraction": {
-      value: {
-        x: 0,
-        y: 0,
-      },
-      min: 0,
-      step: 0.5,
-      onChange: (v) => handelAttraction(v)
-    }
   });
   return null;
 };
