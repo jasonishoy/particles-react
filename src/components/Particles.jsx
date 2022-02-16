@@ -42,10 +42,10 @@ export default class Particles extends React.Component {
       shapesRadius: 140,
       speed: 0.01,
       numberOfCircles: 1,
-      startColor: "#ffffff",
-      endColor: "#000000",
+      startColor: "#4F1500",
+      endColor: "#0029FF",
       shapesMass: 1,
-      shapesLife: 8,
+      shapesLife: 3,
       randomDriftCheck: false,
       randomDrift: 0,
       randomDriftSpeed: 0.01,
@@ -57,6 +57,7 @@ export default class Particles extends React.Component {
     this.conf = { tha: 0 };
     this.attractionBehaviours = [];
     this.renderProton = this.renderProton.bind(this);
+    this.emitters = [];
   }
 
   handleCanvasInited(canvas) {
@@ -78,13 +79,15 @@ export default class Particles extends React.Component {
   createProton(canvas) {
     const proton = new Proton();
     for (let i = 0; i < (this.state.numberOfCircles * 2); i+=1) {
-      proton.addEmitter(this.createImageEmitter({
+      const emitter = this.createImageEmitter({
         canvas,
         x: canvas.width / 2 + this.state.shapesRadius,
         y: canvas.height / 2,
         startColor: this.state.startColor,
         endColor: this.state.endColor,
-      }));
+      });
+      proton.addEmitter(emitter);
+      this.emitters.push(emitter);
     }
     const renderer = new Proton.WebGlRenderer(canvas);
     renderer.blendFunc("SRC_ALPHA", "ONE");
@@ -233,91 +236,83 @@ export default class Particles extends React.Component {
   }
 
   handelSpeed(newValue) {
-    this.setState({
+    TweenLite.to(this.state, 2, {
       speed: newValue
-    })
-    this.destroyProton();
-    this.proton.update();
+    });
   }
 
   handelRadius(newValue) {
-    this.setState({
+    TweenLite.to(this.state, 2, {
       shapesRadius: newValue,
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelStartColor(newValue) {
-    this.setState({
-      startColor: newValue,
-    });
-    this.destroyProton();
-    this.proton.update();
+    // this.setState({startColor: newValue});
+    for (var i = 0; i < this.emitters.length; i++) {
+      this.emitters[i].addBehaviour(new Proton.Color(newValue, this.state.endColor));
+    }
   }
 
   handelEndColor(newValue) {
-    this.setState({
-      endColor: newValue,
-    });
-    this.destroyProton();
-    this.proton.update();
+    // this.setState({endColor: newValue});
+    for (var i = 0; i < this.emitters.length; i++) {
+      this.emitters[i].addBehaviour(new Proton.Color(this.state.startColor, newValue));
+    }
   }
 
   handelMass(newValue) {
-    this.setState({
-      shapesMass: newValue,
+    TweenLite.to(this.state, 2, {
+      shapesMass: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelLife(newValue) {
     this.setState({
       shapesLife: newValue,
     });
-    this.destroyProton();
-    this.proton.update();
+    // this.destroyProton();
+    // this.proton.update();
+    // TweenLite.to(this.state, 2, {
+    //   shapesLife: newValue
+    // });
+    // for (var i = 0; i < this.attractionBehaviours.length; i++)
+    //   this.attractionBehaviours[i].reset(newValue);
+    // this.proton.update();
+    // for (var i = 0; i < this.emitters.length; i++) {
+    //   this.emitters.emit(2, newValue);
+    // }
+
   }
 
   handelRandomDriftCheck(newValue) {
-    this.setState({
-      randomDriftCheck: newValue,
+    TweenLite.to(this.state, 2, {
+      randomDriftCheck: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelRandomDrift(newValue) {
-    this.setState({
-      randomDrift: newValue,
+    TweenLite.to(this.state, 2, {
+      randomDrift: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelRandomDriftSpeed(newValue) {
-    this.setState({
-      randomDriftSpeed: newValue,
+    TweenLite.to(this.state, 2, {
+      randomDriftSpeed: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelAlpha(newValue) {
-    this.setState({
-      alpha: newValue,
+    TweenLite.to(this.state, 2, {
+      alpha: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   handelScale(newValue) {
-    this.setState({
-      scale: newValue,
+    TweenLite.to(this.state, 2, {
+      scale: newValue
     });
-    this.destroyProton();
-    this.proton.update();
   }
 
   render() {
