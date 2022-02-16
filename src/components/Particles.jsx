@@ -58,6 +58,7 @@ export default class Particles extends React.Component {
     this.emitters = [];
     this.startColor = "#4F1500";
     this.endColor=  "#0029FF";
+    this.colorBehaviour = {};
   }
 
   handleCanvasInited(canvas) {
@@ -120,7 +121,8 @@ export default class Particles extends React.Component {
     emitter.addBehaviour(
       new Proton.Alpha(this.state.alpha, 0)
     );
-    emitter.addBehaviour(new Proton.Color(startColor, endColor));
+    this.colorBehaviour = new Proton.Color(startColor, endColor);
+    emitter.addBehaviour(this.colorBehaviour);
     emitter.addBehaviour(
       new Proton.Scale(this.state.scale, 0)
     );
@@ -249,16 +251,22 @@ export default class Particles extends React.Component {
 
   handelStartColor(newValue) {
     this.startColor = newValue;
+    const newColorBehavior = new Proton.Color(this.startColor, this.endColor);
     for (var i = 0; i < this.emitters.length; i++) {
-      this.emitters[i].addBehaviour(new Proton.Color(newValue, this.endColor));
+      this.emitters[i].removeBehaviour(this.colorBehaviour);
+      this.emitters[i].addBehaviour(newColorBehavior);
     }
+    this.colorBehaviour = newColorBehavior;
   }
 
   handelEndColor(newValue) {
     this.endColor = newValue;
+    const newColorBehavior = new Proton.Color(this.startColor, this.endColor);
     for (var i = 0; i < this.emitters.length; i++) {
-      this.emitters[i].addBehaviour(new Proton.Color(this.startColor, newValue));
+      this.emitters[i].removeBehaviour(this.colorBehaviour);
+      this.emitters[i].addBehaviour(newColorBehavior);
     }
+    this.colorBehaviour = newColorBehavior;
   }
 
   handelMass(newValue) {
@@ -268,16 +276,16 @@ export default class Particles extends React.Component {
   }
 
   handelLife(newValue) {
-    this.setState({
-      shapesLife: newValue,
-    });
+    // this.setState({
+    //   shapesLife: newValue,
+    // });
     // this.destroyProton();
     // this.proton.update();
     // TweenLite.to(this.state, 2, {
     //   shapesLife: newValue
     // });
-    // for (var i = 0; i < this.attractionBehaviours.length; i++)
-    //   this.attractionBehaviours[i].reset(newValue);
+    for (var i = 0; i < this.attractionBehaviours.length; i++)
+      this.attractionBehaviours[i].reset(newValue);
     // this.proton.update();
     // for (var i = 0; i < this.emitters.length; i++) {
     //   this.emitters.emit(2, newValue);
