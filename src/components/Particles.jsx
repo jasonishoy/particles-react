@@ -177,7 +177,6 @@ export default class Particles extends React.Component {
             divisionNum: this.state.circlesPositions[x].divisionNum,
           });
         ([1,3,5,7,9].includes(i)) && x++;
-        console.log(x);
       }
     }
     this.conf.tha += 0.01;
