@@ -39,11 +39,9 @@ export default class Particles extends React.Component {
           divisionNum: 4,
         },
       ],
-      shapesRadius: 140,
+      shapesRadius: 120,
       speed: 0.01,
-      numberOfCircles: 1,
-      startColor: "#4F1500",
-      endColor: "#0029FF",
+      numberOfCircles: 1,      
       shapesMass: 1,
       shapesLife: 3,
       randomDriftCheck: false,
@@ -58,6 +56,8 @@ export default class Particles extends React.Component {
     this.attractionBehaviours = [];
     this.renderProton = this.renderProton.bind(this);
     this.emitters = [];
+    this.startColor = "#4F1500";
+    this.endColor=  "#0029FF";
   }
 
   handleCanvasInited(canvas) {
@@ -83,8 +83,8 @@ export default class Particles extends React.Component {
         canvas,
         x: canvas.width / 2 + this.state.shapesRadius,
         y: canvas.height / 2,
-        startColor: this.state.startColor,
-        endColor: this.state.endColor,
+        startColor: this.startColor,
+        endColor: this.endColor,
       });
       proton.addEmitter(emitter);
       this.emitters.push(emitter);
@@ -248,16 +248,16 @@ export default class Particles extends React.Component {
   }
 
   handelStartColor(newValue) {
-    // this.setState({startColor: newValue});
+    this.startColor = newValue;
     for (var i = 0; i < this.emitters.length; i++) {
-      this.emitters[i].addBehaviour(new Proton.Color(newValue, this.state.endColor));
+      this.emitters[i].addBehaviour(new Proton.Color(newValue, this.endColor));
     }
   }
 
   handelEndColor(newValue) {
-    // this.setState({endColor: newValue});
+    this.endColor = newValue;
     for (var i = 0; i < this.emitters.length; i++) {
-      this.emitters[i].addBehaviour(new Proton.Color(this.state.startColor, newValue));
+      this.emitters[i].addBehaviour(new Proton.Color(this.startColor, newValue));
     }
   }
 

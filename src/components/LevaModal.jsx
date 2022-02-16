@@ -17,7 +17,7 @@ const LevaModal = ({
   const control = useControls({
     "Circles Number": { value: 1, min: 1, max: 3, step: 1, onChange: (v) => handelNumberOfCircles(v) },
     "Speed": { value: 0.01, min: 0.01, max: 0.04, step: 0.001, onChange: (v) => handelSpeed(v)},
-    "Radius": { value: 150, min: 10, max: 30, onChange: (v) => handelRadius(v) },
+    "Radius": { value: 150, min: 10, max: 300, onChange: (v) => handelRadius(v) },
     "Start color": { value: "red", onChange: (v) => handelStartColor(v) },
     "End color": { value: "blue", onChange: (v) => handelEndColor(v) },
     "Mass": {
