@@ -43,7 +43,6 @@ export default class Particles extends React.Component {
       speed: 0.01,
       numberOfCircles: 1,      
       shapesMass: 1,
-      shapesLife: 3,
       randomDriftCheck: false,
       randomDrift: 0,
       randomDriftSpeed: 0.01,
@@ -59,6 +58,8 @@ export default class Particles extends React.Component {
     this.startColor = "#4F1500";
     this.endColor=  "#0029FF";
     this.colorBehaviour = {};
+    this.lifeBehaviour = {};
+    this.shapesLife = 3;
   }
 
   handleCanvasInited(canvas) {
@@ -107,7 +108,8 @@ export default class Particles extends React.Component {
     );
 
     emitter.addInitialize(new Proton.Mass(this.state.shapesMass));
-    emitter.addInitialize(new Proton.Life(this.state.shapesLife));
+    this.lifeBehaviour = new Proton.Life(this.shapesLife);
+    emitter.addInitialize(this.lifeBehaviour);
     emitter.addInitialize(new Proton.Body([dot], this.state.shapesBody));
     emitter.addInitialize(new Proton.Radius(this.state.shapesRadius));
     this.state.randomDriftCheck && emitter.addBehaviour(
@@ -276,21 +278,12 @@ export default class Particles extends React.Component {
   }
 
   handelLife(newValue) {
-    // this.setState({
-    //   shapesLife: newValue,
-    // });
-    // this.destroyProton();
-    // this.proton.update();
-    // TweenLite.to(this.state, 2, {
-    //   shapesLife: newValue
-    // });
-    for (var i = 0; i < this.attractionBehaviours.length; i++)
-      this.attractionBehaviours[i].reset(newValue);
-    // this.proton.update();
-    // for (var i = 0; i < this.emitters.length; i++) {
-    //   this.emitters.emit(2, newValue);
-    // }
-
+    const newLifeBehavior = new Proton.Life(newValue);
+    for (var i = 0; i < this.emitters.length; i++) {
+      this.emitters[i].removeInitialize(this.lifeBehaviour);
+      this.emitters[i].addInitialize(newLifeBehavior);
+    }
+    this.lifeBehaviour = newLifeBehavior;
   }
 
   handelRandomDriftCheck(newValue) {
