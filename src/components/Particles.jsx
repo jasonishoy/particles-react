@@ -234,10 +234,12 @@ export default class Particles extends React.Component {
   handleMouseDown() {
     this.center.x = this.canvas.width / 2;
     this.center.y = this.canvas.height / 2;
+    const radiuses = [];
+    for (let i = 0; i < this.state.numberOfBlobs; i+=1) radiuses[i] = this.blobs[i].radius;
     for (let i = 0; i < this.state.numberOfBlobs; i+=1)
       TweenLite.to(this.blobs[i], 2, {
         radius: 10,
-        onComplete: () => TweenLite.to(this.blobs[i], 2, { radius: 150 }),
+        onComplete: () => TweenLite.to(this.blobs[i], 2, { radius: radiuses[i] }),
       });
     setTimeout(() => {
       for (let i = 0; i < this.state.numberOfBlobs; i+=1)
