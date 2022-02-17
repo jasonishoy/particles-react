@@ -43,6 +43,8 @@ const LevaModal = ({
         x: 1,
         y: 1,
       },
+      min: -30,
+      max: 30,
       render: (get) => get('Enable Random Drift'),
       onChange: (v) => handelRandomDrift(v)
     },

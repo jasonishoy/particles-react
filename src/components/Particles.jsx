@@ -43,9 +43,6 @@ export default class Particles extends React.Component {
       speed: 0.01,
       numberOfCircles: 1,      
       shapesMass: 1,
-      randomDriftCheck: false,
-      randomDrift: 0,
-      randomDriftSpeed: 0.01,
       alpha: 0.8,
       scale: 2.5,
     };
@@ -57,6 +54,8 @@ export default class Particles extends React.Component {
     this.emitters = [];
     this.startColor = "#4F1500";
     this.endColor=  "#0029FF";
+    this.randomDrift = {x: 1, y: 1};
+    this.randomDriftSpeed = 0.03;
     this.colorBehaviour = {};
     this.lifeBehaviour = {};
     this.shapesLife = 3;
@@ -91,6 +90,7 @@ export default class Particles extends React.Component {
       proton.addEmitter(emitter);
       this.emitters.push(emitter);
     }
+    console.log(this.emitters);
     const renderer = new Proton.WebGlRenderer(canvas);
     renderer.blendFunc("SRC_ALPHA", "ONE");
     proton.addRenderer(renderer);
@@ -112,13 +112,6 @@ export default class Particles extends React.Component {
     emitter.addInitialize(this.lifeBehaviour);
     emitter.addInitialize(new Proton.Body([dot], this.state.shapesBody));
     emitter.addInitialize(new Proton.Radius(this.state.shapesRadius));
-    this.state.randomDriftCheck && emitter.addBehaviour(
-      new Proton.RandomDrift(
-        this.state.randomDrift.x,
-        this.state.randomDrift.y,
-        this.state.randomDriftSpeed
-      )
-    );
 
     emitter.addBehaviour(
       new Proton.Alpha(this.state.alpha, 0)
@@ -286,33 +279,56 @@ export default class Particles extends React.Component {
     this.lifeBehaviour = newLifeBehavior;
   }
 
-  handelRandomDriftCheck(newValue) {
-    TweenLite.to(this.state, 2, {
-      randomDriftCheck: newValue
-    });
+  handelRandomDriftCheck(randomDriftCheck) {
+    if (randomDriftCheck) {
+      return this.emitters.map((emitter) => emitter.addBehaviour(
+        new Proton.RandomDrift(
+          this.randomDrift.x,
+          this.randomDrift.y,
+          this.randomDriftSpeed
+        )
+      ));
+    }
+    return this.emitters.map((emitter) => emitter.removeBehaviour(new Proton.RandomDrift()));
   }
 
   handelRandomDrift(newValue) {
-    TweenLite.to(this.state, 2, {
-      randomDrift: newValue
-    });
+    this.randomDrift = newValue;
+    this.emitters.map((emitter) => emitter.removeBehaviour(new Proton.RandomDrift()));
+    this.emitters.map((emitter) => emitter.addBehaviour(
+      new Proton.RandomDrift(
+        newValue.x,
+        newValue.y,
+        this.randomDriftSpeed
+      )
+    ));
   }
 
   handelRandomDriftSpeed(newValue) {
-    TweenLite.to(this.state, 2, {
-      randomDriftSpeed: newValue
-    });
+    this.randomDriftSpeed = newValue;
+    this.emitters.map((emitter) => emitter.removeBehaviour(new Proton.RandomDrift()));
+    this.emitters.map((emitter) => emitter.addBehaviour(
+      new Proton.RandomDrift(
+        this.randomDrift.x,
+        this.randomDrift.y,
+        newValue
+      )
+    ));
   }
 
   handelAlpha(newValue) {
-    TweenLite.to(this.state, 2, {
-      alpha: newValue
+    this.emitters.map((emmiter) => {
+      emmiter.addBehaviour(
+        new Proton.Alpha(newValue, 0)
+      );
     });
   }
 
   handelScale(newValue) {
-    TweenLite.to(this.state, 2, {
-      scale: newValue
+    this.emitters.map((emmiter) => {
+      emmiter.addBehaviour(
+        new Proton.Scale(newValue, 0)
+      );
     });
   }
 
