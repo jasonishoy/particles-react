@@ -1,12 +1,12 @@
 import { useControls } from "leva";
 
 const LevaModal = ({
-  handelNumberOfCircles,
+  numberOfBlobs,
+  handelnumberOfBlobs,
   handelSpeed,
   handelRadius,
   handelStartColor,
   handelEndColor,
-  handelMass,
   handelLife,
   handelRandomDriftCheck,
   handelRandomDrift,
@@ -14,19 +14,12 @@ const LevaModal = ({
   handelAlpha,
   handelScale,
 }) => {
-  const control = useControls({
-    "Circles Number": { value: 1, min: 1, max: 3, step: 1, onChange: (v) => handelNumberOfCircles(v) },
+  useControls({
+    "Circles Number": { value: 1, min: 1, max: 3, step: 1, onChange: (v) => handelnumberOfBlobs(v) },
     "Speed": { value: 0.01, min: 0.01, max: 0.04, step: 0.001, onChange: (v) => handelSpeed(v)},
     "Radius": { value: 150, min: 10, max: 300, onChange: (v) => handelRadius(v) },
     "Start color": { value: "red", onChange: (v) => handelStartColor(v) },
     "End color": { value: "blue", onChange: (v) => handelEndColor(v) },
-    "Mass": {
-      value: 1,
-      min: 1,
-      max: 12,
-      step: 1,
-      onChange: (v) => handelMass(v),
-    },
     "Life": {
       value: 3,
       min: 1,
