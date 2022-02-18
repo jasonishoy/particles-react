@@ -1,4 +1,4 @@
-import { useControls, folder } from "leva";
+import { useControls, folder, button } from "leva";
 
 const LevaModal = ({
   handlenumberOfBlobs,
@@ -15,6 +15,18 @@ const LevaModal = ({
   handleEnableScale,
 }) => {
   useControls({
+    SavedConfigs: {
+      label: "Saved Configs",
+      options : {
+        "config1": {},
+        "config2": {},
+      }
+    },
+    configName: {
+      label: 'Name',
+      value: '',
+    },
+    Save: button(),
     numberOfBlobs: {
       label: "Number of blobs",
       value: 1,
@@ -28,7 +40,7 @@ const LevaModal = ({
         speed1: {
           label: "Speed",
           value: 1,
-          min: 1,
+          min: -10,
           max: 10,
           step: 1,
           onChange: (value) => handleSpeed(0, value),
@@ -112,7 +124,7 @@ const LevaModal = ({
         speed2: {
           label: "Speed",
           value: 1,
-          min: 1,
+          min: -10,
           max: 10,
           step: 1,
           onChange: (value) => handleSpeed(1, value),
@@ -199,7 +211,7 @@ const LevaModal = ({
         speed3: {
           label: "Speed",
           value: 1,
-          min: 1,
+          min: -10,
           max: 10,
           step: 1,
           onChange: (value) => handleSpeed(2, value),
