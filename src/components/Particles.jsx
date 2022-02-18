@@ -260,7 +260,7 @@ export default class Particles extends React.Component {
     this.proton.stats.update(2);
   }
 
-  handelnumberOfBlobs(newValue) {
+  handlenumberOfBlobs(newValue) {
     this.setState({
       numberOfBlobs: newValue,
     });
@@ -269,19 +269,19 @@ export default class Particles extends React.Component {
     this.proton.update();
   }
 
-  handelSpeed(index, newValue) {
+  handleSpeed(index, newValue) {
     TweenLite.to(this.blobs[index], 1, {
-      speed: newValue
+      speed: newValue / 100.0
     });
   }
 
-  handelRadius(index, newValue) {
+  handleRadius(index, newValue) {
     TweenLite.to(this.blobs[index], 2, {
       radius: newValue,
     });
   }
 
-  handelStartColor(index, newValue) {
+  handleStartColor(index, newValue) {
     this.blobs[index].startColor = newValue;
     const newColorBehavior = new Proton.Color(
       this.blobs[index].startColor,
@@ -291,7 +291,7 @@ export default class Particles extends React.Component {
     this.colorBehaviour = newColorBehavior;
   }
 
-  handelEndColor(index, newValue) {
+  handleEndColor(index, newValue) {
     this.blobs[index].endColor = newValue;
     const newColorBehavior = new Proton.Color(
       this.blobs[index].startColor,
@@ -301,7 +301,7 @@ export default class Particles extends React.Component {
     this.colorBehaviour = newColorBehavior;
   }
 
-  handelLife(index, newValue) {
+  handleLife(index, newValue) {
     const newLifeBehavior = new Proton.Life(newValue);
     this.blobs[index].life = newValue;
     this.emitters.length && this.emitters[index].removeInitialize(this.lifeBehaviour);
@@ -309,7 +309,7 @@ export default class Particles extends React.Component {
     this.lifeBehaviour = newLifeBehavior;
   }
 
-  handelRandomDriftCheck(index, randomDriftCheck) {
+  handleRandomDriftCheck(index, randomDriftCheck) {
     this.blobs[index].randomDriftCheck = randomDriftCheck;
     !this.blobs[index].randomDriftCheck &&
       this.emitters.length &&
@@ -319,7 +319,7 @@ export default class Particles extends React.Component {
       this.emitters[index].addBehaviour(this.randomDriftBehavior);
   }
 
-  handelRandomDrift(index, newValue) {
+  handleRandomDrift(index, newValue) {
     this.blobs[index].randomDrift = newValue;
     this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
@@ -333,7 +333,7 @@ export default class Particles extends React.Component {
       );
   }
 
-  handelRandomDriftSpeed(index, newValue) {
+  handleRandomDriftSpeed(index, newValue) {
     this.blobs[index].randomDriftSpeed = newValue;
     this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
@@ -347,16 +347,20 @@ export default class Particles extends React.Component {
       );
   }
 
-  handelAlpha(index, newValue) {
+  handleAlpha(index, newValue) {
     this.blobs[index].alpha = newValue;
     this.emitters.length &&
       this.emitters[index].addBehaviour(new Proton.Alpha(newValue, 0));
   }
 
-  handelScale(index, newValue) {
+  handleScale(index, newValue) {
     this.blobs[index].scale = newValue;
     this.emitters.length &&
       this.emitters[index].addBehaviour(new Proton.Scale(newValue, 0));
+  }
+  
+  handleEnableScale(index, newValue) {
+    
   }
 
   render() {
@@ -370,17 +374,18 @@ export default class Particles extends React.Component {
           onResize={this.handleResize.bind(this)}
         />
         <LevaModal
-          handelnumberOfBlobs={this.handelnumberOfBlobs.bind(this)}
-          handelSpeed={this.handelSpeed.bind(this)}
-          handelRadius={this.handelRadius.bind(this)}
-          handelStartColor={this.handelStartColor.bind(this)}
-          handelEndColor={this.handelEndColor.bind(this)}
-          handelLife={this.handelLife.bind(this)}
-          handelRandomDriftCheck={this.handelRandomDriftCheck.bind(this)}
-          handelRandomDrift={this.handelRandomDrift.bind(this)}
-          handelRandomDriftSpeed={this.handelRandomDriftSpeed.bind(this)}
-          handelAlpha={this.handelAlpha.bind(this)}
-          handelScale={this.handelScale.bind(this)}
+          handlenumberOfBlobs={this.handlenumberOfBlobs.bind(this)}
+          handleSpeed={this.handleSpeed.bind(this)}
+          handleRadius={this.handleRadius.bind(this)}
+          handleStartColor={this.handleStartColor.bind(this)}
+          handleEndColor={this.handleEndColor.bind(this)}
+          handleLife={this.handleLife.bind(this)}
+          handleRandomDriftCheck={this.handleRandomDriftCheck.bind(this)}
+          handleRandomDrift={this.handleRandomDrift.bind(this)}
+          handleRandomDriftSpeed={this.handleRandomDriftSpeed.bind(this)}
+          handleAlpha={this.handleAlpha.bind(this)}
+          handleScale={this.handleScale.bind(this)}
+          handleEnableScale={this.handleEnableScale.bind(this)}
         />
       </>
     );
