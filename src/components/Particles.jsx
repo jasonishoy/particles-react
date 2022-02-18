@@ -49,6 +49,7 @@ export default class Particles extends React.Component {
         randomDrift: { x: 1, y: 1 },
         randomDriftSpeed: 0.03,
         alpha: 0.8,
+        enableScale: false,
         scale: 2.5,
       },
       {
@@ -62,6 +63,7 @@ export default class Particles extends React.Component {
         randomDrift: { x: 1, y: 1 },
         randomDriftSpeed: 0.03,
         alpha: 0.8,
+        enableScale: false,
         scale: 2.5,
       },
       {
@@ -75,6 +77,7 @@ export default class Particles extends React.Component {
         randomDrift: { x: 1, y: 1 },
         randomDriftSpeed: 0.03,
         alpha: 0.8,
+        enableScale: false,
         scale: 2.5,
       },
     ];
@@ -320,31 +323,30 @@ export default class Particles extends React.Component {
   }
 
   handleRandomDrift(index, newValue) {
-    this.blobs[index].randomDrift = newValue;
+    const newRandomDriftBehaviour = new Proton.RandomDrift(
+      newValue.x,
+      newValue.y,
+      this.blobs[index].randomDriftSpeed
+    );
     this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
-    this.emitters.length &&
-      this.emitters[index].addBehaviour(
-        new Proton.RandomDrift(
-          newValue.x,
-          newValue.y,
-          this.blobs[index].randomDriftSpeed
-        )
-      );
+    this.emitters.length && this.emitters[index].addBehaviour(newRandomDriftBehaviour);
+    this.blobs[index].randomDrift = newValue;
+    this.randomDriftBehavior = newRandomDriftBehaviour;
   }
 
   handleRandomDriftSpeed(index, newValue) {
-    this.blobs[index].randomDriftSpeed = newValue;
+    const newRandomDriftBehaviour = new Proton.RandomDrift(
+      this.blobs[index].randomDrift.x,
+      this.blobs[index].randomDrift.y,
+      newValue
+    );
     this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
     this.emitters.length &&
-      this.emitters[index].addBehaviour(
-        new Proton.RandomDrift(
-          this.blobs[index].randomDrift.x,
-          this.blobs[index].randomDrift.y,
-          newValue
-        )
-      );
+      this.emitters[index].addBehaviour(newRandomDriftBehaviour);
+    this.blobs[index].randomDriftSpeed = newValue;
+    this.randomDriftBehavior = newRandomDriftBehaviour;
   }
 
   handleAlpha(index, newValue) {
@@ -353,14 +355,16 @@ export default class Particles extends React.Component {
       this.emitters[index].addBehaviour(new Proton.Alpha(newValue, 0));
   }
 
+  handleEnableScale(index, newValue) {
+    this.blobs[index].enableScale = newValue;
+    this.emitters.length && !this.blobs[index].enableScale &&
+      this.emitters[index].addBehaviour(new Proton.Scale(2.5, 0));
+  }
+
   handleScale(index, newValue) {
     this.blobs[index].scale = newValue;
-    this.emitters.length &&
+    this.emitters.length && this.blobs[index].enableScale &&
       this.emitters[index].addBehaviour(new Proton.Scale(newValue, 0));
-  }
-  
-  handleEnableScale(index, newValue) {
-    
   }
 
   render() {

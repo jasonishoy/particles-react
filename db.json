@@ -1,0 +1,57 @@
+{
+  "shapes": [
+    {
+      "name": "config1",
+      "data": {
+        "blobs_number": 3,
+        "blobs": [
+          {
+            "attractionBehaviour": null,
+            "speed": 0.01,
+            "radius": 120,
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
+            "life": 1,
+            "randomDriftCheck": false,
+            "randomDrift": { "x": 1, "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5
+          },
+          {
+            "attractionBehaviour": null,
+            "speed": 0.01,
+            "radius": 120,
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
+            "life": 1,
+            "randomDriftCheck": false,
+            "randomDrift": { "x": 1, "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5
+          },
+          {
+            "attractionBehaviour": null,
+            "speed": 0.01,
+            "radius": 120,
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
+            "life": 1,
+            "randomDriftCheck": false,
+            "randomDrift": { "x": 1, "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5
+          }
+        ]
+      }
+    }
+  ]
+}
