@@ -183,7 +183,7 @@ const LevaModal = ({
           min: 1,
           max: 4,
           step: 0.5,
-          render: (get) => get("enableScale2"),
+          render: (get) => get("Second.enableScale2"),
           onChange: (value) => handelScale(1, value),
         },
       },
