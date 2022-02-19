@@ -5,41 +5,34 @@ import TweenLite from "gsap/TweenLite";
 import Canvas from "./Canvas";
 import dot from "../assets/dot";
 import LevaModal from "./LevaModal";
-/*
-7- when the user adds more emmiters, the GUI should update to allow the user to control
-  the parameters of each blob separately. This is a bit advanced and it has less priority than other changes.
-4- How can the user save a configuration of the parameters and load it?
-  It would be great if the GUI had a save and load button (or a dropdown mechanism for loading and saving the configs,
-  allowing the user to select different configurations).
-  You can perhaps use local storage or maybe let the user save the configs in a JSON file and also load a saved JSON file.
-  Try to solve this without using a backend code
------------------------------------------------------------------------------------
-1- The number should control the number of "emmiters" not the circles.
-  Basically the default should be only one blob spinning the center 
-  and then the user can add more blobs (2 or 3 max, for 3, the phase difference should 2Pi/3).                   ---> Done
-2- Now the random drift sliders don't work. I couldn't get the tails of the emmiters to get random by moving     ---> Done
-  the sliders.
-3- The mass variable doesnt do anything, we can remove it. Just assign a reasonable default value to it and      ---> Done
-  remove it from the GUI
-5- all the blobs should rotate around the same center.                                                           ---> Done
-6- Also the Alpha and Enable Scale and Scale don't do anything, it seems like the tween is not working properly  ---> Done
-  for them
-*/
+
+// Classes
+import NumberOfBlobs from "../classes/numberOfBlobs";
+import Speed from "../classes/speedSettings";
+import Radius from "../classes/radiusSettings";
+import StartColor from "../classes/startColorSettings";
+import EndColor from "../classes/endColorSettings";
+import Life from "../classes/lifeSettings";
+import RandomDriftCheck from "../classes/randomDriftCheckSettings";
+import RandomDrift from "../classes/randomDriftSettings";
+import RandomDriftSpeed from "../classes/randomDriftSpeed";
+import Alpha from "../classes/alphaSettings";
+import ScaleCheck from "../classes/scaleCheckSettings";
+import Scale from "../classes/scaleSettings";
+import Saving from "../classes/saving";
+import Loading from "../classes/loading";
 
 export default class Particles extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      numberOfBlobs: 1,
+      loaded: false,
+      configs: [],
+      configsNames: [],
+      numberOfBlobs: 0,
     };
-    this.loaded = false;
-    this.center = { x: 0, y: 0 };
-    this.conf = { thaOne: 0, thaTwo: 0, thaThree: 0,};
-    this.renderProton = this.renderProton.bind(this);
-    this.emitters = [];
     this.blobs = [
       {
-        attractionBehaviour: null,
         speed: 0.01,
         radius: 120,
         startColor: "#4F1500",
@@ -53,7 +46,6 @@ export default class Particles extends React.Component {
         scale: 2.5,
       },
       {
-        attractionBehaviour: null,
         speed: 0.01,
         radius: 120,
         startColor: "#4F1500",
@@ -67,7 +59,6 @@ export default class Particles extends React.Component {
         scale: 2.5,
       },
       {
-        attractionBehaviour: null,
         speed: 0.01,
         radius: 120,
         startColor: "#4F1500",
@@ -81,6 +72,12 @@ export default class Particles extends React.Component {
         scale: 2.5,
       },
     ];
+    this.center = { x: 0, y: 0 };
+    this.conf = { thaOne: 0, thaTwo: 0, thaThree: 0 };
+    this.renderProton = this.renderProton.bind(this);
+    this.emitters = [];
+    this.currentId = null;
+    this.attractionBehaviours = [];
     this.randomDriftBehavior = new Proton.RandomDrift(
       this.blobs[0].randomDrift.x,
       this.blobs[0].randomDrift.y,
@@ -140,7 +137,8 @@ export default class Particles extends React.Component {
     emitter.addInitialize(this.lifeBehaviour);
     emitter.addInitialize(new Proton.Body([dot], 32));
     emitter.addInitialize(new Proton.Radius(this.blobs[index].radius));
-    this.blobs[index].randomDriftCheck && emitter.addBehaviour(this.randomDriftBehavior);
+    this.blobs[index].randomDriftCheck &&
+      emitter.addBehaviour(this.randomDriftBehavior);
     emitter.addBehaviour(new Proton.Alpha(this.blobs[index].alpha, 0));
     this.colorBehaviour = new Proton.Color(startColor, endColor);
     emitter.addBehaviour(this.colorBehaviour);
@@ -153,7 +151,7 @@ export default class Particles extends React.Component {
     );
     const attractionBehaviour = new Proton.Attraction(this.center, 0, 0);
     emitter.addBehaviour(attractionBehaviour);
-    this.blobs[index].attractionBehaviour = attractionBehaviour;
+    this.attractionBehaviours[index] = attractionBehaviour;
 
     emitter.p.x = x;
     emitter.p.y = y;
@@ -172,7 +170,7 @@ export default class Particles extends React.Component {
               tha: Math.PI / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaTwo
+              speed: this.conf.thaTwo,
             })
           : this.coordinateRotation({
               emitter: this.proton.emitters[i],
@@ -181,7 +179,7 @@ export default class Particles extends React.Component {
               tha: -Math.PI / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaOne
+              speed: this.conf.thaOne,
             });
       }
     } else {
@@ -194,7 +192,7 @@ export default class Particles extends React.Component {
               tha: (3.1 * Math.PI) / 3,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaThree
+              speed: this.conf.thaThree,
             })
           : i % 2
           ? this.coordinateRotation({
@@ -204,7 +202,7 @@ export default class Particles extends React.Component {
               tha: (3.3 * Math.PI) / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaOne
+              speed: this.conf.thaOne,
             })
           : this.coordinateRotation({
               emitter: this.proton.emitters[i],
@@ -213,7 +211,7 @@ export default class Particles extends React.Component {
               tha: (-3.3 * Math.PI) / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaTwo
+              speed: this.conf.thaTwo,
             });
       }
     }
@@ -222,12 +220,19 @@ export default class Particles extends React.Component {
     this.conf.thaThree += this.blobs[2].speed;
   }
 
-  coordinateRotation({ emitter, width, height, tha, divisionNum, radius, speed }) {
-    emitter.p.x =
-      width / divisionNum +
-      radius * Math.sin(tha + speed);
-    emitter.p.y =
-      height / 2 + radius * Math.cos(tha + speed);
+  coordinateRotation({
+    emitter,
+    width,
+    height,
+    tha,
+    divisionNum,
+    radius,
+    speed,
+  }) {
+    if (emitter) {
+      emitter.p.x = width / divisionNum + radius * Math.sin(tha + speed);
+      emitter.p.y = height / 2 + radius * Math.cos(tha + speed);
+    }
   }
 
   handleResize(width, height) {
@@ -238,22 +243,25 @@ export default class Particles extends React.Component {
     this.center.x = this.canvas.width / 2;
     this.center.y = this.canvas.height / 2;
     const radiuses = [];
-    for (let i = 0; i < this.state.numberOfBlobs; i+=1) radiuses[i] = this.blobs[i].radius;
-    for (let i = 0; i < this.state.numberOfBlobs; i+=1)
+    for (let i = 0; i < this.state.numberOfBlobs; i += 1)
+      radiuses[i] = this.blobs[i].radius;
+    for (let i = 0; i < this.state.numberOfBlobs; i += 1)
       TweenLite.to(this.blobs[i], 2, {
         radius: 10,
-        onComplete: () => TweenLite.to(this.blobs[i], 2, { radius: radiuses[i] }),
+        onComplete: () =>
+          TweenLite.to(this.blobs[i], 2, { radius: radiuses[i] }),
       });
+
     setTimeout(() => {
-      for (let i = 0; i < this.state.numberOfBlobs; i+=1)
-        this.blobs[i].attractionBehaviour.reset(this.center, 120, 200);
+      for (let i = 0; i < this.state.numberOfBlobs; i += 1)
+        this.attractionBehaviours[i].reset(this.center, 120, 200);
     }, 1000);
   }
 
   handleMouseUp() {
     setTimeout(() => {
-      for (var i = 0; i < this.state.numberOfBlobs; i+=1)
-        this.blobs[i].attractionBehaviour.reset(this.center, 0, 0);
+      for (var i = 0; i < this.state.numberOfBlobs; i += 1)
+        this.attractionBehaviours[i].reset(this.center, 0, 0);
     }, 1000);
   }
 
@@ -263,108 +271,30 @@ export default class Particles extends React.Component {
     this.proton.stats.update(2);
   }
 
-  handlenumberOfBlobs(newValue) {
-    this.setState({
-      numberOfBlobs: newValue,
-    });
-    this.emitters = [];
-    this.destroyProton();
-    this.proton.update();
-  }
-
-  handleSpeed(index, newValue) {
-    TweenLite.to(this.blobs[index], 1, {
-      speed: newValue / 100.0
-    });
-  }
-
-  handleRadius(index, newValue) {
-    TweenLite.to(this.blobs[index], 2, {
-      radius: newValue,
-    });
-  }
-
-  handleStartColor(index, newValue) {
-    this.blobs[index].startColor = newValue;
-    const newColorBehavior = new Proton.Color(
-      this.blobs[index].startColor,
-      this.blobs[index].endColor
-    );
-    this.emitters.length && this.emitters[index].addBehaviour(newColorBehavior);
-    this.colorBehaviour = newColorBehavior;
-  }
-
-  handleEndColor(index, newValue) {
-    this.blobs[index].endColor = newValue;
-    const newColorBehavior = new Proton.Color(
-      this.blobs[index].startColor,
-      this.blobs[index].endColor
-    );
-    this.emitters.length && this.emitters[index].addBehaviour(newColorBehavior);
-    this.colorBehaviour = newColorBehavior;
-  }
-
-  handleLife(index, newValue) {
-    const newLifeBehavior = new Proton.Life(newValue);
-    this.blobs[index].life = newValue;
-    this.emitters.length && this.emitters[index].removeInitialize(this.lifeBehaviour);
-    this.emitters.length && this.emitters[index].addInitialize(newLifeBehavior);
-    this.lifeBehaviour = newLifeBehavior;
-  }
-
-  handleRandomDriftCheck(index, randomDriftCheck) {
-    this.blobs[index].randomDriftCheck = randomDriftCheck;
-    !this.blobs[index].randomDriftCheck &&
-      this.emitters.length &&
-      this.emitters[index].removeBehaviour(this.randomDriftBehavior);
-    this.blobs[index].randomDriftCheck &&
-      this.emitters.length &&
-      this.emitters[index].addBehaviour(this.randomDriftBehavior);
-  }
-
-  handleRandomDrift(index, newValue) {
-    const newRandomDriftBehaviour = new Proton.RandomDrift(
-      newValue.x,
-      newValue.y,
-      this.blobs[index].randomDriftSpeed
-    );
-    this.emitters.length &&
-      this.emitters[index].removeBehaviour(this.randomDriftBehavior);
-    this.emitters.length && this.emitters[index].addBehaviour(newRandomDriftBehaviour);
-    this.blobs[index].randomDrift = newValue;
-    this.randomDriftBehavior = newRandomDriftBehaviour;
-  }
-
-  handleRandomDriftSpeed(index, newValue) {
-    const newRandomDriftBehaviour = new Proton.RandomDrift(
-      this.blobs[index].randomDrift.x,
-      this.blobs[index].randomDrift.y,
-      newValue
-    );
-    this.emitters.length &&
-      this.emitters[index].removeBehaviour(this.randomDriftBehavior);
-    this.emitters.length &&
-      this.emitters[index].addBehaviour(newRandomDriftBehaviour);
-    this.blobs[index].randomDriftSpeed = newValue;
-    this.randomDriftBehavior = newRandomDriftBehaviour;
-  }
-
-  handleAlpha(index, newValue) {
-    this.blobs[index].alpha = newValue;
-    this.emitters.length &&
-      this.emitters[index].addBehaviour(new Proton.Alpha(newValue, 0));
-  }
-
-  handleEnableScale(index, newValue) {
-    this.blobs[index].enableScale = newValue;
-    this.emitters.length && !this.blobs[index].enableScale &&
-      this.emitters[index].addBehaviour(new Proton.Scale(2.5, 0));
-  }
-
-  handleScale(index, newValue) {
-    this.blobs[index].scale = newValue;
-    this.emitters.length && this.blobs[index].enableScale &&
-      this.emitters[index].addBehaviour(new Proton.Scale(newValue, 0));
+  componentDidMount() {
+    fetch("http://localhost:8000/shapes")
+      .then((res) => res.json())
+      .then((configs) => {
+        if(configs.length) {
+          configs.map((config) => {
+            return this.setState((prevState) => ({
+              configsNames: [...prevState.configsNames, config.name],
+            }));
+          });
+          this.currentId = configs[0].id;
+          this.setState({
+            configs,
+            numberOfBlobs: configs[0].data.blobs_number,
+            loaded: true,
+          });
+          this.blobs = configs[0].data.blobs;
+        } else {
+          this.setState({
+            loaded: true,
+          });
+        }
+      })
+      .catch((err) => console.log(err));
   }
 
   render() {
@@ -377,20 +307,27 @@ export default class Particles extends React.Component {
           onMouseUp={this.handleMouseUp.bind(this)}
           onResize={this.handleResize.bind(this)}
         />
-        <LevaModal
-          handlenumberOfBlobs={this.handlenumberOfBlobs.bind(this)}
-          handleSpeed={this.handleSpeed.bind(this)}
-          handleRadius={this.handleRadius.bind(this)}
-          handleStartColor={this.handleStartColor.bind(this)}
-          handleEndColor={this.handleEndColor.bind(this)}
-          handleLife={this.handleLife.bind(this)}
-          handleRandomDriftCheck={this.handleRandomDriftCheck.bind(this)}
-          handleRandomDrift={this.handleRandomDrift.bind(this)}
-          handleRandomDriftSpeed={this.handleRandomDriftSpeed.bind(this)}
-          handleAlpha={this.handleAlpha.bind(this)}
-          handleScale={this.handleScale.bind(this)}
-          handleEnableScale={this.handleEnableScale.bind(this)}
-        />
+        {this.state.loaded && (
+          <LevaModal
+            blobs={this.blobs}
+            numberofBlobs={this.state.numberOfBlobs}
+            configsNames={this.state.configsNames}
+            handlenumberOfBlobs={NumberOfBlobs.handlenumberOfBlobs.bind(this)}
+            handleSpeed={Speed.handleSpeed.bind(this)}
+            handleRadius={Radius.handleRadius.bind(this)}
+            handleStartColor={StartColor.handleStartColor.bind(this)}
+            handleEndColor={EndColor.handleEndColor.bind(this)}
+            handleLife={Life.handleLife.bind(this)}
+            handleRandomDriftCheck={RandomDriftCheck.handleRandomDriftCheck.bind(this)}
+            handleRandomDrift={RandomDrift.handleRandomDrift.bind(this)}
+            handleRandomDriftSpeed={RandomDriftSpeed.handleRandomDriftSpeed.bind(this)}
+            handleAlpha={Alpha.handleAlpha.bind(this)}
+            handleScale={Scale.handleScale.bind(this)}
+            handleEnableScale={ScaleCheck.handleEnableScale.bind(this)}
+            handleSaving={Saving.handleSaving.bind(this)}
+            handleLoading={Loading.handleLoading.bind(this)}
+          />
+        )}
       </>
     );
   }
