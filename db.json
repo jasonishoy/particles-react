@@ -59,6 +59,66 @@
           }
         ]
       }
+    },
+    {
+      "id": "a5119ceb-f9d2-41b8-a747-dfbaf336f4eb",
+      "name": "1",
+      "data": {
+        "blobs_number": 1,
+        "blobs": [
+          {
+            "speed": 0.1,
+            "radius": 10,
+            "startColor": "#ff4400",
+            "endColor": "#0029ff",
+            "life": 9,
+            "randomDriftCheck": false,
+            "randomDrift": {
+              "x": 1,
+              "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5,
+            "_gsTweenID": "t0"
+          },
+          {
+            "speed": 0.01,
+            "radius": 120,
+            "startColor": "#4f1500",
+            "endColor": "#0029ff",
+            "life": 1,
+            "randomDriftCheck": false,
+            "randomDrift": {
+              "x": 1,
+              "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5,
+            "_gsTweenID": "t1"
+          },
+          {
+            "speed": 0.01,
+            "radius": 120,
+            "startColor": "#4f1500",
+            "endColor": "#0029ff",
+            "life": 1,
+            "randomDriftCheck": false,
+            "randomDrift": {
+              "x": 1,
+              "y": 1
+            },
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5,
+            "_gsTweenID": "t2"
+          }
+        ]
+      }
     }
   ]
 }

@@ -21,7 +21,6 @@ const LevaModal = ({
 }) => {
   let blobsNumber = numberofBlobs;
   let name = "";
-  console.log(blobs[0].life)
   const [, set] = useControls(() => ({
     SavedConfigs: {
       label: "Saved Configs",
@@ -326,7 +325,6 @@ const LevaModal = ({
       }
     ),
   }), [ blobs, numberofBlobs, configsNames ]);
-  console.log(blobs[0].life)
   set({
     speed1: blobs[0].speed * 100,
     radius1: blobs[0].radius,
@@ -366,8 +364,6 @@ const LevaModal = ({
     enableScale3: blobs[2].enableScale,
     scale3: blobs[2].scale,
   })
-  console.log(blobs)
-  console.log(blobs[0].randomDriftCheck)
   return null;
 };
 

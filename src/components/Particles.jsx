@@ -170,9 +170,9 @@ export default class Particles extends React.Component {
             });
       }
     }
-    this.conf.thaOne += this.state.blobs.leength ? this.state.blobs[0].speed : 0.01;
-    this.conf.thaTwo += this.state.blobs.leength ? this.state.blobs[1].speed : 0.01;
-    this.conf.thaThree += this.state.blobs.leength ? this.state.blobs[2].speed : 0.01;
+    this.conf.thaOne += this.state.blobs.length ? this.state.blobs[0].speed : 0.01;
+    this.conf.thaTwo += this.state.blobs.length ? this.state.blobs[1].speed : 0.01;
+    this.conf.thaThree += this.state.blobs.length ? this.state.blobs[2].speed : 0.01;
   }
 
   coordinateRotation({
