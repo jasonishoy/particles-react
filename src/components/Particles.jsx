@@ -137,8 +137,7 @@ export default class Particles extends React.Component {
     emitter.addInitialize(this.lifeBehaviour);
     emitter.addInitialize(new Proton.Body([dot], 32));
     emitter.addInitialize(new Proton.Radius(this.blobs[index].radius));
-    this.blobs[index].randomDriftCheck &&
-      emitter.addBehaviour(this.randomDriftBehavior);
+    this.blobs[index].randomDriftCheck && emitter.addBehaviour(this.randomDriftBehavior);
     emitter.addBehaviour(new Proton.Alpha(this.blobs[index].alpha, 0));
     this.colorBehaviour = new Proton.Color(startColor, endColor);
     emitter.addBehaviour(this.colorBehaviour);
@@ -202,7 +201,7 @@ export default class Particles extends React.Component {
               tha: (3.3 * Math.PI) / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaOne,
+              speed: this.conf.thaTwo,
             })
           : this.coordinateRotation({
               emitter: this.proton.emitters[i],
@@ -211,7 +210,7 @@ export default class Particles extends React.Component {
               tha: (-3.3 * Math.PI) / 2,
               divisionNum: 2,
               radius: this.blobs[i].radius,
-              speed: this.conf.thaTwo,
+              speed: this.conf.thaOne,
             });
       }
     }

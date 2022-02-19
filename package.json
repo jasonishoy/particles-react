@@ -16,6 +16,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@types/gsap": "^3.0.0",
     "json-server": "^0.17.0",
     "typescript": "3.3.3"
   },

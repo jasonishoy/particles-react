@@ -1,167 +1,47 @@
 {
   "shapes": [
     {
-      "id": "5d69079d-42c5-45ad-9dcb-26d369e84621",
-      "name": "1",
-      "data": {
-        "blobs_number": 1,
-        "blobs": [
-          {
-            "speed": 0.01,
-            "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 16.400000000000002,
-              "y": -16.400000000000013
-            },
-            "randomDriftSpeed": 0.01,
-            "alpha": 0.8,
-            "enableScale": true,
-            "scale": 3.5,
-            "_gsTweenID": "t0"
-          },
-          {
-            "speed": 0.01,
-            "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 1,
-              "y": 1
-            },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t1"
-          },
-          {
-            "speed": 0.01,
-            "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 1,
-              "y": 1
-            },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t2"
-          }
-        ]
-      }
-    },
-    {
-      "id": "916441ee-607f-4f99-9abb-adc66dc79266",
-      "name": "2",
+      "id": "2e5dc621-d5f3-4f9e-9053-66f05f0d88c5",
+      "name": "config1",
       "data": {
         "blobs_number": 2,
         "blobs": [
           {
-            "speed": 0,
-            "radius": 192,
-            "startColor": "#c1a9a0",
+            "speed": 0.1,
+            "radius": 120,
+            "startColor": "#ffffff",
             "endColor": "#0029ff",
-            "life": 1,
+            "life": 12,
             "randomDriftCheck": false,
             "randomDrift": {
-              "x": 13.000000000000005,
-              "y": -4.2
+              "x": 1,
+              "y": 1
             },
             "randomDriftSpeed": 0.03,
-            "alpha": 0.1,
+            "alpha": 0.8,
             "enableScale": false,
             "scale": 2.5,
             "_gsTweenID": "t0"
           },
           {
-            "speed": 0.02,
-            "radius": 300,
+            "speed": 0.01,
+            "radius": 10,
             "startColor": "#ff4400",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
+            "endColor": "#ff0000",
+            "life": 4,
+            "randomDriftCheck": true,
             "randomDrift": {
               "x": 1,
               "y": 1
             },
-            "randomDriftSpeed": 0.03,
+            "randomDriftSpeed": 0.01,
             "alpha": 0.30000000000000004,
-            "enableScale": false,
-            "scale": 2.5,
+            "enableScale": true,
+            "scale": 3,
             "_gsTweenID": "t1"
           },
           {
             "speed": 0.01,
-            "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 1,
-              "y": 1
-            },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t2"
-          }
-        ]
-      }
-    },
-    {
-      "id": "7137bd69-68c2-4459-aced-c9cbeaffd9eb",
-      "name": "3",
-      "data": {
-        "blobs_number": 3,
-        "blobs": [
-          {
-            "speed": 0.01,
-            "radius": 162,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 1,
-              "y": 1
-            },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t0"
-          },
-          {
-            "speed": 0,
-            "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
-            "life": 1,
-            "randomDriftCheck": false,
-            "randomDrift": {
-              "x": 1,
-              "y": 1
-            },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t1"
-          },
-          {
-            "speed": 0,
             "radius": 120,
             "startColor": "#4f1500",
             "endColor": "#0029ff",
