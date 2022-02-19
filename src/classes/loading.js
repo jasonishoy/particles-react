@@ -7,9 +7,9 @@ class Loading {
       let blob = filterData[0];
       this.currentId = blob.id;
       this.setState({
+        blobs: blob.data.blobs,
         numberOfBlobs: blob.data.blobs_number,
       });
-      this.blobs = blob.data.blobs;
       this.emitters = [];
       this.destroyProton();
       this.proton.update();

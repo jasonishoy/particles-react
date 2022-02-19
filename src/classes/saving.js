@@ -12,9 +12,9 @@ class Saving {
         .then((config) => {
           this.setState((prevState) => ({
             configsNames: [config.name, ...prevState.configsNames],
+            blobs: config.data.blobs,
             numberOfBlobs: config.data.blobs_number
           }));
-          this.blobs = config.data.blobs;
           this.currentId = config.id;
           this.emitters = [];
           this.destroyProton();
@@ -34,9 +34,9 @@ class Saving {
         this.setState((prevState) => ({
           configs: [config, ...prevState.configs],
           configsNames: [config.name, ...prevState.configsNames],
+          blobs: config.data.blobs,
           numberOfBlobs: config.data.blobs_number
         }));
-        this.blobs = config.data.blobs;
         this.currentId = config.id;
         this.emitters = [];
         this.destroyProton();

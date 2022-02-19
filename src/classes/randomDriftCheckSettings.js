@@ -1,10 +1,14 @@
 class RandomDriftCheck {
   static handleRandomDriftCheck(index, randomDriftCheck) {
-    this.blobs[index].randomDriftCheck = randomDriftCheck;
-    !this.blobs[index].randomDriftCheck &&
+    let blobs = [...this.state.blobs];
+    let blob = {...blobs[index]};
+    blob.randomDriftCheck = randomDriftCheck;
+    blobs[index] = blob;
+    this.setState({blobs});
+    !this.state.blobs[index].randomDriftCheck &&
       this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
-    this.blobs[index].randomDriftCheck &&
+    this.state.blobs[index].randomDriftCheck &&
       this.emitters.length &&
       this.emitters[index].addBehaviour(this.randomDriftBehavior);
   }

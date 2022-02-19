@@ -1,17 +1,17 @@
 {
   "shapes": [
     {
-      "id": "2e5dc621-d5f3-4f9e-9053-66f05f0d88c5",
-      "name": "config1",
+      "id": "455eb180-5e74-4f93-ac4c-e23ffd908dd4",
+      "name": "123",
       "data": {
-        "blobs_number": 2,
+        "blobs_number": 3,
         "blobs": [
           {
             "speed": 0.1,
-            "radius": 120,
-            "startColor": "#ffffff",
+            "radius": 10,
+            "startColor": "#ff4400",
             "endColor": "#0029ff",
-            "life": 12,
+            "life": 9,
             "randomDriftCheck": false,
             "randomDrift": {
               "x": 1,
@@ -25,19 +25,19 @@
           },
           {
             "speed": 0.01,
-            "radius": 10,
-            "startColor": "#ff4400",
-            "endColor": "#ff0000",
-            "life": 4,
-            "randomDriftCheck": true,
+            "radius": 120,
+            "startColor": "#4f1500",
+            "endColor": "#0029ff",
+            "life": 1,
+            "randomDriftCheck": false,
             "randomDrift": {
               "x": 1,
               "y": 1
             },
-            "randomDriftSpeed": 0.01,
-            "alpha": 0.30000000000000004,
-            "enableScale": true,
-            "scale": 3,
+            "randomDriftSpeed": 0.03,
+            "alpha": 0.8,
+            "enableScale": false,
+            "scale": 2.5,
             "_gsTweenID": "t1"
           },
           {

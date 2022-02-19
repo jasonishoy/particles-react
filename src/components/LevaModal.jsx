@@ -1,12 +1,5 @@
-import { useState } from "react";
 import { useControls, folder, button } from "leva";
 
-/* 
-  - Updating isn't working as expected
-  - doesn't  show the name in the list after adding it      ---> Done
-  - the speed increases for ever when changing the config    ---> Done
-  - LevaModal doesn't update the GUI when changing the config
-*/
 const LevaModal = ({
   blobs,
   numberofBlobs,
@@ -28,6 +21,7 @@ const LevaModal = ({
 }) => {
   let blobsNumber = numberofBlobs;
   let name = "";
+  console.log(blobs[0].life)
   const [, set] = useControls(() => ({
     SavedConfigs: {
       label: "Saved Configs",
@@ -66,7 +60,7 @@ const LevaModal = ({
     First: folder({
       speed1: {
         label: "Speed",
-        value: blobs[0].speed * 100.0,
+        value: 0.001 * 100.0,
         min: -10,
         max: 10,
         step: 1,
@@ -74,24 +68,24 @@ const LevaModal = ({
       },
       radius1: {
         label: "Radius",
-        value: blobs[0].radius,
+        value: 120,
         min: 10,
         max: 300,
         onChange: (value) => handleRadius(0, value),
       },
       startColor1: {
         label: "Start color",
-        value: blobs[0].startColor,
+        value: "#4F1500",
         onChange: (value) => handleStartColor(0, value),
       },
       endColor1: {
         label: "End color",
-        value: blobs[0].endColor,
+        value: "#0029FF",
         onChange: (value) => handleEndColor(0, value),
       },
       life1: {
         label: "Life",
-        value: blobs[0].life,
+        value: 1,
         min: 1,
         max: 12,
         step: 1,
@@ -99,12 +93,12 @@ const LevaModal = ({
       },
       enableRandomDrift1: {
         label: "Enable Random Drift",
-        value: blobs[0].randomDriftCheck,
+        value: false,
         onChange: (value) => handleRandomDriftCheck(0, value),
       },
       randomDrift1: {
         label: "Random Drift",
-        value: blobs[0].randomDrift,
+        value: { x: 1, y: 1 },
         min: -20,
         max: 20,
         render: (get) => get("First.enableRandomDrift1"),
@@ -112,7 +106,7 @@ const LevaModal = ({
       },
       randomDriftSpeed1: {
         label: "Random Drift Speed",
-        value: blobs[0].randomDriftSpeed,
+        value: 0.03,
         min: 0.01,
         max: 1,
         step: 0.01,
@@ -121,7 +115,7 @@ const LevaModal = ({
       },
       alpha1: {
         label: "Alpha",
-        value: blobs[0].alpha,
+        value: 0.8,
         min: 0.1,
         max: 1,
         step: 0.1,
@@ -129,7 +123,7 @@ const LevaModal = ({
       },
       enableScale1: {
         label: "Enable Scale",
-        value: blobs[0].enableScale,
+        value: false,
         onChange: (value) => {
           handleEnableScale(0, value);
           if (!value) {
@@ -141,7 +135,7 @@ const LevaModal = ({
       },
       scale1: {
         label: "Scale",
-        value: blobs[0].scale,
+        value: 2.5,
         min: 1,
         max: 4,
         step: 0.5,
@@ -153,7 +147,7 @@ const LevaModal = ({
       {
         speed2: {
           label: "Speed",
-          value: blobs[1].speed * 100.0,
+          value: 0.001 * 100.0,
           min: -10,
           max: 10,
           step: 1,
@@ -161,25 +155,24 @@ const LevaModal = ({
         },
         radius2: {
           label: "Radius",
-          value: blobs[1].radius,
+          value: 120,
           min: 10,
           max: 300,
           onChange: (value) => handleRadius(1, value),
         },
         startColor2: {
           label: "Start color",
-          value: blobs[1].startColor,
+          value: "#4F1500",
           onChange: (value) => handleStartColor(1, value),
-
         },
         endColor2: {
           label: "End color",
-          value: blobs[1].endColor,
+          value: "#0029FF",
           onChange: (value) => handleEndColor(1, value),
         },
         life2: {
           label: "Life",
-          value: blobs[1].life,
+          value: 1,
           min: 1,
           max: 12,
           step: 1,
@@ -187,12 +180,12 @@ const LevaModal = ({
         },
         enableRandomDrift2: {
           label: "Enable Random Drift",
-          value: blobs[1].randomDriftCheck,
+          value: false,
           onChange: (value) => handleRandomDriftCheck(1, value),
         },
         randomDrift2: {
           label: "Random Drift",
-          value: blobs[1].randomDrift,
+          value: { x: 1, y: 1 },
           min: -20,
           max: 20,
           render: (get) => get("Second.enableRandomDrift2"),
@@ -200,7 +193,7 @@ const LevaModal = ({
         },
         randomDriftSpeed2: {
           label: "Random Drift Speed",
-          value: blobs[1].randomDriftSpeed,
+          value: 0.03,
           min: 0.01,
           max: 1,
           step: 0.01,
@@ -209,16 +202,15 @@ const LevaModal = ({
         },
         alpha2: {
           label: "Alpha",
-          value: blobs[1].alpha,
+          value: 0.8,
           min: 0.1,
           max: 1,
           step: 0.1,
           onChange: (value) => handleAlpha(1, value),
-
         },
         enableScale2: {
           label: "Enable Scale",
-          value: blobs[1].enableScale,
+          value: false,
           onChange: (value) => {
             handleEnableScale(1, value);
             if (!value) {
@@ -227,18 +219,16 @@ const LevaModal = ({
               });
             }
           },
-
         },
         scale2: {
           label: "Scale",
-          value: blobs[1].scale,
+          value: 2.5,
           min: 1,
           max: 4,
           step: 0.5,
           render: (get) => get("Second.enableScale2"),
           onChange: (value) => handleScale(1, value),
-
-        },
+      },
       },
       {
         render: (get) => get("numberOfBlobs") >= 2,
@@ -248,50 +238,45 @@ const LevaModal = ({
       {
         speed3: {
           label: "Speed",
-          value: blobs[2].speed * 100.0,
+          value: 0.001 * 100.0,
           min: -10,
           max: 10,
           step: 1,
           onChange: (value) => handleSpeed(2, value),
-
         },
         radius3: {
           label: "Radius",
-          value: blobs[2].radius,
+          value: 120,
           min: 10,
           max: 300,
           onChange: (value) => handleRadius(2, value),
-
         },
         startColor3: {
           label: "Start color",
-          value: blobs[2].startColor,
+          value: "#4F1500",
           onChange: (value) => handleStartColor(2, value),
-
         },
         endColor3: {
           label: "End color",
-          value: blobs[2].endColor,
+          value: "#0029FF",
           onChange: (value) => handleEndColor(2, value),
-
         },
         life3: {
           label: "Life",
-          value: blobs[2].life,
+          value: 1,
           min: 1,
           max: 12,
           step: 1,
           onChange: (value) => handleLife(2, value),
-
         },
         enableRandomDrift3: {
           label: "Enable Random Drift",
-          value: blobs[2].randomDriftCheck,
+          value: false,
           onChange: (value) => handleRandomDriftCheck(2, value),
         },
         randomDrift3: {
           label: "Random Drift",
-          value: blobs[2].randomDrift,
+          value: { x: 1, y: 1 },
           min: -20,
           max: 20,
           render: (get) => get("Third.enableRandomDrift3"),
@@ -299,26 +284,24 @@ const LevaModal = ({
         },
         randomDriftSpeed3: {
           label: "Random Drift Speed",
-          value: blobs[2].randomDriftSpeed,
+          value: 0.03,
           min: 0.01,
           max: 1,
           step: 0.01,
           render: (get) => get("Third.enableRandomDrift3"),
           onChange: (value) => handleRandomDriftSpeed(2, value),
-
         },
         alpha3: {
           label: "Alpha",
-          value: blobs[2].alpha,
+          value: 0.8,
           min: 0.1,
           max: 1,
           step: 0.1,
           onChange: (value) => handleAlpha(2, value),
-
         },
         enableScale3: {
           label: "Enable Scale",
-          value: blobs[2].enableScale,
+          value: false,
           onChange: (value) => {
             handleEnableScale(2, value);
             if (!value) {
@@ -327,17 +310,15 @@ const LevaModal = ({
               });
             }
           },
-
         },
         scale3: {
           label: "Scale",
-          value: blobs[2].scale,
+          value: 2.5,
           min: 1,
           max: 4,
           step: 0.5,
           render: (get) => get("Third.enableScale3"),
           onChange: (value) => handleScale(2, value),
-
         },
       },
       {
@@ -345,6 +326,7 @@ const LevaModal = ({
       }
     ),
   }), [ blobs, numberofBlobs, configsNames ]);
+  console.log(blobs[0].life)
   set({
     speed1: blobs[0].speed * 100,
     radius1: blobs[0].radius,
@@ -384,6 +366,8 @@ const LevaModal = ({
     enableScale3: blobs[2].enableScale,
     scale3: blobs[2].scale,
   })
+  console.log(blobs)
+  console.log(blobs[0].randomDriftCheck)
   return null;
 };
 
