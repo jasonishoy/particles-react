@@ -28,7 +28,7 @@ export default class Particles extends React.Component {
     this.state = {
       loaded: false,
       configs: [],
-      blobs : [],
+      blobs: [],
       configsNames: [],
       numberOfBlobs: 0,
     };
@@ -93,7 +93,8 @@ export default class Particles extends React.Component {
     emitter.addInitialize(this.lifeBehaviour);
     emitter.addInitialize(new Proton.Body([dot], 32));
     emitter.addInitialize(new Proton.Radius(this.state.blobs[index].radius));
-    this.state.blobs[index].randomDriftCheck && emitter.addBehaviour(this.randomDriftBehavior);
+    this.state.blobs[index].randomDriftCheck &&
+      emitter.addBehaviour(this.randomDriftBehavior);
     emitter.addBehaviour(new Proton.Alpha(this.state.blobs[index].alpha, 0));
     this.colorBehaviour = new Proton.Color(startColor, endColor);
     emitter.addBehaviour(this.colorBehaviour);
@@ -170,9 +171,15 @@ export default class Particles extends React.Component {
             });
       }
     }
-    this.conf.thaOne += this.state.blobs.length ? this.state.blobs[0].speed : 0.01;
-    this.conf.thaTwo += this.state.blobs.length ? this.state.blobs[1].speed : 0.01;
-    this.conf.thaThree += this.state.blobs.length ? this.state.blobs[2].speed : 0.01;
+    this.conf.thaOne += this.state.blobs.length
+      ? this.state.blobs[0].speed
+      : 0.001;
+    this.conf.thaTwo += this.state.blobs.length
+      ? this.state.blobs[1].speed
+      : 0.001;
+    this.conf.thaThree += this.state.blobs.length
+      ? this.state.blobs[2].speed
+      : 0.001;
   }
 
   coordinateRotation({
@@ -230,7 +237,7 @@ export default class Particles extends React.Component {
     fetch("http://localhost:8000/shapes")
       .then((res) => res.json())
       .then((configs) => {
-        if(configs.length) {
+        if (configs.length) {
           configs.map((config) => {
             return this.setState((prevState) => ({
               configsNames: [...prevState.configsNames, config.name],
@@ -245,6 +252,47 @@ export default class Particles extends React.Component {
           });
         } else {
           this.setState({
+            blobs: [
+              {
+                speed: 0.01,
+                radius: 120,
+                startColor: "#4F1500",
+                endColor: "#0029FF",
+                life: 1,
+                enableRandomDrift: false,
+                randomDrift: { x: 1, y: 1 },
+                randomDriftSpeed: 0.03,
+                alpha: 0.8,
+                enableScale: false,
+                scale: 2.5,
+              },
+              {
+                speed: 0.01,
+                radius: 120,
+                startColor: "#4F1500",
+                endColor: "#0029FF",
+                life: 1,
+                enableRandomDrift: false,
+                randomDrift: { x: 1, y: 1 },
+                randomDriftSpeed: 0.03,
+                alpha: 0.8,
+                enableScale: false,
+                scale: 2.5,
+              },
+              {
+                speed: 0.01,
+                radius: 120,
+                startColor: "#4F1500",
+                endColor: "#0029FF",
+                life: 1,
+                enableRandomDrift: false,
+                randomDrift: { x: 1, y: 1 },
+                randomDriftSpeed: 0.03,
+                alpha: 0.8,
+                enableScale: false,
+                scale: 2.5,
+              },
+            ],
             loaded: true,
           });
         }
@@ -273,9 +321,13 @@ export default class Particles extends React.Component {
             handleStartColor={StartColor.handleStartColor.bind(this)}
             handleEndColor={EndColor.handleEndColor.bind(this)}
             handleLife={Life.handleLife.bind(this)}
-            handleRandomDriftCheck={RandomDriftCheck.handleRandomDriftCheck.bind(this)}
+            handleRandomDriftCheck={RandomDriftCheck.handleRandomDriftCheck.bind(
+              this
+            )}
             handleRandomDrift={RandomDrift.handleRandomDrift.bind(this)}
-            handleRandomDriftSpeed={RandomDriftSpeed.handleRandomDriftSpeed.bind(this)}
+            handleRandomDriftSpeed={RandomDriftSpeed.handleRandomDriftSpeed.bind(
+              this
+            )}
             handleAlpha={Alpha.handleAlpha.bind(this)}
             handleScale={Scale.handleScale.bind(this)}
             handleEnableScale={ScaleCheck.handleEnableScale.bind(this)}

@@ -8,7 +8,10 @@ class Alpha {
     blobs[index] = blob;
     this.setState({blobs});
     this.emitters.length &&
+      this.emitters[index].removeBehaviour(new Proton.Alpha(newValue, 0));
+    this.emitters.length &&
       this.emitters[index].addBehaviour(new Proton.Alpha(newValue, 0));
+    this.proton.update();
   }
 }
 

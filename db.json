@@ -1,35 +1,36 @@
 {
   "shapes": [
     {
-      "id": "455eb180-5e74-4f93-ac4c-e23ffd908dd4",
-      "name": "123",
+      "id": "5574f1df-8ecd-44c2-9f9c-b6e5eb9918fa",
+      "name": "red",
       "data": {
-        "blobs_number": 3,
+        "blobs_number": 2,
         "blobs": [
           {
-            "speed": 0.1,
-            "radius": 10,
-            "startColor": "#ff4400",
-            "endColor": "#0029ff",
-            "life": 9,
-            "randomDriftCheck": false,
+            "speed": 0.03,
+            "radius": 147,
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
+            "life": 4,
+            "enableRandomDrift": false,
             "randomDrift": {
-              "x": 1,
-              "y": 1
+              "x": -18.99999999999999,
+              "y": -18.199999999999992
             },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t0"
+            "randomDriftSpeed": 0.43000000000000005,
+            "alpha": 0.4,
+            "enableScale": true,
+            "scale": 4,
+            "_gsTweenID": "t0",
+            "randomDriftCheck": true
           },
           {
             "speed": 0.01,
             "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
             "life": 1,
-            "randomDriftCheck": false,
+            "enableRandomDrift": false,
             "randomDrift": {
               "x": 1,
               "y": 1
@@ -43,10 +44,10 @@
           {
             "speed": 0.01,
             "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
             "life": 1,
-            "randomDriftCheck": false,
+            "enableRandomDrift": false,
             "randomDrift": {
               "x": 1,
               "y": 1
@@ -61,35 +62,36 @@
       }
     },
     {
-      "id": "a5119ceb-f9d2-41b8-a747-dfbaf336f4eb",
-      "name": "1",
+      "id": "4fae7319-f7d4-49ea-b993-eec66a735d4f",
+      "name": "we",
       "data": {
-        "blobs_number": 1,
+        "blobs_number": 2,
         "blobs": [
           {
-            "speed": 0.1,
-            "radius": 10,
-            "startColor": "#ff4400",
-            "endColor": "#0029ff",
-            "life": 9,
-            "randomDriftCheck": false,
+            "speed": 0.03,
+            "radius": 147,
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
+            "life": 4,
+            "enableRandomDrift": false,
             "randomDrift": {
-              "x": 1,
-              "y": 1
+              "x": -18.99999999999999,
+              "y": -18.199999999999992
             },
-            "randomDriftSpeed": 0.03,
-            "alpha": 0.8,
-            "enableScale": false,
-            "scale": 2.5,
-            "_gsTweenID": "t0"
+            "randomDriftSpeed": 0.43000000000000005,
+            "alpha": 0.4,
+            "enableScale": true,
+            "scale": 4,
+            "_gsTweenID": "t0",
+            "randomDriftCheck": true
           },
           {
             "speed": 0.01,
             "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
             "life": 1,
-            "randomDriftCheck": false,
+            "enableRandomDrift": false,
             "randomDrift": {
               "x": 1,
               "y": 1
@@ -103,10 +105,10 @@
           {
             "speed": 0.01,
             "radius": 120,
-            "startColor": "#4f1500",
-            "endColor": "#0029ff",
+            "startColor": "#4F1500",
+            "endColor": "#0029FF",
             "life": 1,
-            "randomDriftCheck": false,
+            "enableRandomDrift": false,
             "randomDrift": {
               "x": 1,
               "y": 1
