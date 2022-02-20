@@ -1,5 +1,5 @@
 class NumberOfBlobs {
-  static handlenumberOfBlobs(newValue) {
+  static handleNumberOfBlobs(newValue) {
     this.setState({
       numberOfBlobs: newValue,
     });

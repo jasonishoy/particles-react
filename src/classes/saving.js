@@ -1,49 +1,30 @@
-import { v4 as uuidv4 } from "uuid";
-
 class Saving {
   static async handleSaving(name, data) {
-    if (this.state.configsNames.includes(name)) {
-      return await fetch(`http://localhost:8000/shapes/${this.currentId}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, data }),
-      })
-        .then((res) => res.json())
-        .then((config) => {
-          this.setState((prevState) => ({
-            configsNames: [config.name, ...prevState.configsNames],
-            blobs: config.data.blobs,
-            numberOfBlobs: config.data.blobs_number
-          }));
-          this.currentId = config.id;
-          this.emitters = [];
-          this.destroyProton();
-          this.proton.update();
-          alert("Config updated successfully");
-        })
-        .catch((err) => alert("Something went wrong!"));
+    let configsNames = this.state.configsNames;
+    let configs = this.state.configs;
+    if (configsNames.includes(name)) {
+      configs.forEach((config) => {
+        return config.name === name ?
+        config.data = data
+        :
+        null
+      });
+      return localStorage.setItem("configs", JSON.stringify(configs));
     }
-
-    await fetch("http://localhost:8000/shapes", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ id: uuidv4(), name, data }),
-    })
-      .then((res) => res.json())
-      .then((config) => {
-        this.setState((prevState) => ({
-          configs: [config, ...prevState.configs],
-          configsNames: [config.name, ...prevState.configsNames],
-          blobs: config.data.blobs,
-          numberOfBlobs: config.data.blobs_number
-        }));
-        this.currentId = config.id;
-        this.emitters = [];
-        this.destroyProton();
-        this.proton.update();
-        alert("Config saved successfully");
-      })
-      .catch((err) => alert("Something went wrong!"));
+    // if it's new data
+    let newConfig = JSON.stringify([ ...this.state.configs, { name, data }]);
+    localStorage.setItem("configs", newConfig);
+    configs = JSON.parse(localStorage.getItem("configs"));
+    configsNames = configs.map((config) => {
+      return config.name;
+    });
+    this.blobs = configs[0].data.blobs;
+    let numberOfBlobs = configs[0].data.blobs_number;
+    this.setState({
+      configs,
+      numberOfBlobs,
+      configsNames,
+    });
   }
 }
 

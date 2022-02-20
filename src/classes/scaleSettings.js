@@ -2,13 +2,9 @@ import Proton from "proton-engine";
 
 class Scale {
   static handleScale(index, newValue) {
-    let blobs = [...this.state.blobs];
-    let blob = {...blobs[index]};
-    blob.scale = newValue;
-    blobs[index] = blob;
-    this.setState({blobs});
+    this.blobs[index].scale = newValue;
     this.emitters.length &&
-      this.state.blobs[index].enableScale &&
+      this.blobs[index].enableScale &&
       this.emitters[index].addBehaviour(new Proton.Scale(newValue, 0));
   }
 }

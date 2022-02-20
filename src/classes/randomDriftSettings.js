@@ -5,17 +5,13 @@ class RandomDrift {
     const newRandomDriftBehaviour = new Proton.RandomDrift(
       newValue.x,
       newValue.y,
-      this.state.blobs[index].randomDriftSpeed
+      this.blobs[index].randomDriftSpeed
     );
     this.emitters.length &&
       this.emitters[index].removeBehaviour(this.randomDriftBehavior);
     this.emitters.length &&
       this.emitters[index].addBehaviour(newRandomDriftBehaviour);
-      let blobs = [...this.state.blobs];
-      let blob = {...blobs[index]};
-      blob.randomDrift = newValue;
-      blobs[index] = blob;
-      this.setState({blobs});
+    this.blobs[index].randomDrift = newValue;
     this.randomDriftBehavior = newRandomDriftBehaviour;
   }
 }

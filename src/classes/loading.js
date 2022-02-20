@@ -4,11 +4,10 @@ class Loading {
       let filterData = this.state.configs.filter(
         (config) => config.name === newValue
       );
-      let blob = filterData[0];
-      this.currentId = blob.id;
+      let config = filterData[0];
+      this.blobs = config.data.blobs;
       this.setState({
-        blobs: blob.data.blobs,
-        numberOfBlobs: blob.data.blobs_number,
+        numberOfBlobs: config.data.blobs_number,
       });
       this.emitters = [];
       this.destroyProton();
