@@ -4,14 +4,17 @@ class Loading {
       let filterData = this.state.configs.filter(
         (config) => config.name === newValue
       );
-      let config = filterData[0];
-      this.blobs = config.data.blobs;
-      this.setState({
-        numberOfBlobs: config.data.blobs_number,
-      });
-      this.emitters = [];
-      this.destroyProton();
-      this.proton.update();
+      if (filterData.length) {
+        let config = filterData[0];
+        this.blobs = config.data.blobs;
+        this.setState({
+          selectedConfig: config,
+          numberOfBlobs: config.data.blobs_number,
+        });
+        this.emitters = [];
+        this.destroyProton();
+        this.proton.update();
+      }
     }
   }
 }

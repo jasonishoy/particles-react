@@ -18,6 +18,7 @@ const LevaModal = ({
   handleEnableScale,
   handleSaving,
   handleLoading,
+  handleDelete,
 }) => {
   let blobsNumber = numberofBlobs;
   let name = "";
@@ -26,7 +27,6 @@ const LevaModal = ({
       SavedConfigs: {
         label: "Saved Configs",
         options: configsNames,
-        render: () => configsNames.length !== 0,
         onChange: (value) => {
           value === undefined && configsNames.length
             ? handleLoading(configsNames[0])
@@ -34,6 +34,9 @@ const LevaModal = ({
           set({ numberOfBlobs: numberofBlobs });
         },
       },
+      Delete: button(() => {
+        handleDelete();
+      }),
       configName: {
         label: "Name",
         value: name,

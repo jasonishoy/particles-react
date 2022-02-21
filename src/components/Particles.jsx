@@ -30,6 +30,7 @@ export default class Particles extends React.Component {
       configs: [],
       configsNames: [],
       numberOfBlobs: 0,
+      selectedConfig: {},
     };
     this.blobs = [];
     this.center = { x: 0, y: 0 };
@@ -228,8 +229,11 @@ export default class Particles extends React.Component {
   }
 
   componentDidMount() {
+    let configs;
     if (localStorage.getItem("configs")) {
-      const configs = JSON.parse(localStorage.getItem("configs"));
+      configs = JSON.parse(localStorage.getItem("configs"));
+    }
+    if (configs && configs.length) {
       const configsNames = configs.map((config) => {
         return config.name;
       });
@@ -239,6 +243,7 @@ export default class Particles extends React.Component {
         configs,
         numberOfBlobs,
         configsNames,
+        selectedConfig: configs[0],
         loaded: true,
       });
     }
@@ -321,6 +326,7 @@ export default class Particles extends React.Component {
             handleEnableScale={ScaleCheck.handleEnableScale.bind(this)}
             handleSaving={Saving.handleSaving.bind(this)}
             handleLoading={Loading.handleLoading.bind(this)}
+            handleDelete={Saving.handleDelete.bind(this)}
           />
         )}
       </>
