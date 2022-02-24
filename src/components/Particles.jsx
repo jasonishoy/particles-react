@@ -9,6 +9,7 @@ import LevaModal from "./LevaModal";
 // Classes
 import NumberOfBlobs from "../classes/numberOfBlobs";
 import Speed from "../classes/speedSettings";
+import Phase from "../classes/phaseSettings";
 import Radius from "../classes/radiusSettings";
 import StartColor from "../classes/startColorSettings";
 import EndColor from "../classes/endColorSettings";
@@ -34,7 +35,6 @@ export default class Particles extends React.Component {
     };
     this.blobs = [];
     this.center = { x: 0, y: 0 };
-    this.conf = { thaOne: 0, thaTwo: 0, thaThree: 0 };
     this.renderProton = this.renderProton.bind(this);
     this.emitters = [];
     this.currentId = null;
@@ -117,64 +117,17 @@ export default class Particles extends React.Component {
   }
 
   emitterMove() {
-    if (this.state.numberOfBlobs <= 2) {
-      for (let i = 0; i < this.state.numberOfBlobs; i += 1) {
-        i % 2
-          ? this.coordinateRotation({
-              emitter: this.proton.emitters[i],
-              width: this.canvas.width,
-              height: this.canvas.height,
-              tha: Math.PI / 2,
-              divisionNum: 2,
-              radius: this.blobs[i].radius,
-              speed: this.conf.thaTwo,
-            })
-          : this.coordinateRotation({
-              emitter: this.proton.emitters[i],
-              width: this.canvas.width,
-              height: this.canvas.height,
-              tha: -Math.PI / 2,
-              divisionNum: 2,
-              radius: this.blobs[i].radius,
-              speed: this.conf.thaOne,
-            });
-      }
-    } else {
-      for (let i = 0; i < this.state.numberOfBlobs; i += 1) {
-        i === 2
-          ? this.coordinateRotation({
-              emitter: this.proton.emitters[i],
-              width: this.canvas.width,
-              height: this.canvas.height,
-              tha: (3.1 * Math.PI) / 3,
-              divisionNum: 2,
-              radius: this.blobs[i].radius,
-              speed: this.conf.thaThree,
-            })
-          : i % 2
-          ? this.coordinateRotation({
-              emitter: this.proton.emitters[i],
-              width: this.canvas.width,
-              height: this.canvas.height,
-              tha: (3.3 * Math.PI) / 2,
-              divisionNum: 2,
-              radius: this.blobs[i].radius,
-              speed: this.conf.thaTwo,
-            })
-          : this.coordinateRotation({
-              emitter: this.proton.emitters[i],
-              width: this.canvas.width,
-              height: this.canvas.height,
-              tha: (-3.3 * Math.PI) / 2,
-              divisionNum: 2,
-              radius: this.blobs[i].radius,
-              speed: this.conf.thaOne,
-            });
-      }
+    for (let i = 0; i < this.state.numberOfBlobs; i += 1) {
+      this.coordinateRotation({
+        emitter: this.proton.emitters[i],
+        width: this.canvas.width,
+        height: this.canvas.height,
+        tha: this.blobs[i].tha || (i * 2 * Math.PI / this.state.numberOfBlobs),
+        radius: this.blobs[i].radius,
+        phase: this.blobs[i].phase,
+      });
+      this.blobs[i].phase += this.blobs[i].speed || 0.01;
     }
-    this.conf.thaOne += this.blobs.length ? this.blobs[0].speed : 0.001;
-    this.conf.thaTwo += this.blobs.length ? this.blobs[1].speed : 0.001;
-    this.conf.thaThree += this.blobs.length ? this.blobs[2].speed : 0.001;
   }
 
   coordinateRotation({
@@ -182,13 +135,12 @@ export default class Particles extends React.Component {
     width,
     height,
     tha,
-    divisionNum,
     radius,
-    speed,
+    phase,
   }) {
     if (emitter) {
-      emitter.p.x = width / divisionNum + radius * Math.sin(tha + speed);
-      emitter.p.y = height / 2 + radius * Math.cos(tha + speed);
+      emitter.p.x = width / 2 + radius * Math.sin(tha + phase);
+      emitter.p.y = height / 2 + radius * Math.cos(tha + phase);
     }
   }
 
@@ -250,6 +202,7 @@ export default class Particles extends React.Component {
     this.blobs = [
       {
         speed: 0.01,
+        phase: 0,
         radius: 120,
         startColor: "#4F1500",
         endColor: "#0029FF",
@@ -263,6 +216,7 @@ export default class Particles extends React.Component {
       },
       {
         speed: 0.01,
+        phase: 0,
         radius: 120,
         startColor: "#4F1500",
         endColor: "#0029FF",
@@ -276,6 +230,7 @@ export default class Particles extends React.Component {
       },
       {
         speed: 0.01,
+        phase: 0,
         radius: 120,
         startColor: "#4F1500",
         endColor: "#0029FF",
@@ -310,6 +265,7 @@ export default class Particles extends React.Component {
             configsNames={this.state.configsNames}
             handleNumberOfBlobs={NumberOfBlobs.handleNumberOfBlobs.bind(this)}
             handleSpeed={Speed.handleSpeed.bind(this)}
+            handlePhase={Phase.handlePhase.bind(this)}
             handleRadius={Radius.handleRadius.bind(this)}
             handleStartColor={StartColor.handleStartColor.bind(this)}
             handleEndColor={EndColor.handleEndColor.bind(this)}

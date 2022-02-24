@@ -19,6 +19,7 @@ const LevaModal = ({
   handleSaving,
   handleLoading,
   handleDelete,
+  handlePhase,
 }) => {
   let blobsNumber = numberofBlobs;
   let name = "";
@@ -75,6 +76,14 @@ const LevaModal = ({
           // Check src/components/Particles.jsx line 312
           // Check handleSpeed function in src/classes/speedSettings.js
           onChange: (value) => handleSpeed(0, value), 
+        },
+        phase1: {
+          label: "Phase",
+          value: 0,
+          min: 0,
+          max: 2 * Math.PI,
+          step: 0.01,
+          onChange: (value) => handlePhase(0, value),
         },
         radius1: {
           label: "Radius",
@@ -162,6 +171,14 @@ const LevaModal = ({
             max: 10,
             step: 1,
             onChange: (value) => handleSpeed(1, value),
+          },
+          phase2: {
+            label: "Phase",
+            value: 0,
+            min: 0,
+            max: 2 * Math.PI,
+            step: 0.01,
+            onChange: (value) => handlePhase(1, value),
           },
           radius2: {
             label: "Radius",
@@ -253,6 +270,14 @@ const LevaModal = ({
             max: 10,
             step: 1,
             onChange: (value) => handleSpeed(2, value),
+          },
+          phase3: {
+            label: "Phase",
+            value: 0,
+            min: 0,
+            max: 2 * Math.PI,
+            step: 0.01,
+            onChange: (value) => handlePhase(2, value),
           },
           radius3: {
             label: "Radius",
