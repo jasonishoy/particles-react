@@ -122,7 +122,7 @@ export default class Particles extends React.Component {
         emitter: this.proton.emitters[i],
         width: this.canvas.width,
         height: this.canvas.height,
-        tha: this.blobs[i].tha || (i * 2 * Math.PI / this.state.numberOfBlobs),
+        tha: this.blobs[i].tha,
         radius: this.blobs[i].radius,
         phase: this.blobs[i].phase,
       });
@@ -202,6 +202,7 @@ export default class Particles extends React.Component {
     this.blobs = [
       {
         speed: 0.01,
+        tha: 0,
         phase: 0,
         radius: 120,
         startColor: "#4F1500",
@@ -216,6 +217,7 @@ export default class Particles extends React.Component {
       },
       {
         speed: 0.01,
+        tha: 0,
         phase: 0,
         radius: 120,
         startColor: "#4F1500",
@@ -230,6 +232,7 @@ export default class Particles extends React.Component {
       },
       {
         speed: 0.01,
+        tha: 0,
         phase: 0,
         radius: 120,
         startColor: "#4F1500",
@@ -265,7 +268,7 @@ export default class Particles extends React.Component {
             configsNames={this.state.configsNames}
             handleNumberOfBlobs={NumberOfBlobs.handleNumberOfBlobs.bind(this)}
             handleSpeed={Speed.handleSpeed.bind(this)}
-            handlePhase={Phase.handlePhase.bind(this)}
+            handleTha={Phase.handleTha.bind(this)}
             handleRadius={Radius.handleRadius.bind(this)}
             handleStartColor={StartColor.handleStartColor.bind(this)}
             handleEndColor={EndColor.handleEndColor.bind(this)}

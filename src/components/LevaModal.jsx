@@ -19,7 +19,7 @@ const LevaModal = ({
   handleSaving,
   handleLoading,
   handleDelete,
-  handlePhase,
+  handleTha,
 }) => {
   let blobsNumber = numberofBlobs;
   let name = "";
@@ -77,13 +77,13 @@ const LevaModal = ({
           // Check handleSpeed function in src/classes/speedSettings.js
           onChange: (value) => handleSpeed(0, value), 
         },
-        phase1: {
+        tha1: {
           label: "Phase",
-          value: 0,
+          value: blobs[0].tha,
           min: 0,
           max: 2 * Math.PI,
           step: 0.01,
-          onChange: (value) => handlePhase(0, value),
+          onChange: (value) => handleTha(0, value),
         },
         radius1: {
           label: "Radius",
@@ -172,13 +172,13 @@ const LevaModal = ({
             step: 1,
             onChange: (value) => handleSpeed(1, value),
           },
-          phase2: {
+          tha2: {
             label: "Phase",
-            value: 0,
+            value: blobs[1].tha,
             min: 0,
             max: 2 * Math.PI,
             step: 0.01,
-            onChange: (value) => handlePhase(1, value),
+            onChange: (value) => handleTha(1, value),
           },
           radius2: {
             label: "Radius",
@@ -271,13 +271,13 @@ const LevaModal = ({
             step: 1,
             onChange: (value) => handleSpeed(2, value),
           },
-          phase3: {
+          tha3: {
             label: "Phase",
-            value: 0,
+            value: blobs[2].tha,
             min: 0,
             max: 2 * Math.PI,
             step: 0.01,
-            onChange: (value) => handlePhase(2, value),
+            onChange: (value) => handleTha(2, value),
           },
           radius3: {
             label: "Radius",
