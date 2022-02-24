@@ -63,13 +63,18 @@ const LevaModal = ({
         },
       },
       First: folder({
+        // speed slider of 1st emitter
         speed1: {
-          label: "Speed",
-          value: blobs[0].speed * 100.0,
-          min: -10,
-          max: 10,
-          step: 1,
-          onChange: (value) => handleSpeed(0, value),
+          label: "Speed", // Slider label name to show in the UI
+          value: blobs[0].speed * 100.0, // default value
+          min: -10, // min value of the slider
+          max: 10, // max value of the slider
+          step: 1, // step value of the slider
+          
+          // Handle event when slider is changed.
+          // Check src/components/Particles.jsx line 312
+          // Check handleSpeed function in src/classes/speedSettings.js
+          onChange: (value) => handleSpeed(0, value), 
         },
         radius1: {
           label: "Radius",
